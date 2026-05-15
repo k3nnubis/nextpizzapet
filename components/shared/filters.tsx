@@ -23,8 +23,14 @@ export const Filters: React.FC<Props> = ({ className }) => {
       {/* Фильтр цены */}
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bolfd mb-3">Цена от и до:</p>
-        <div className="flex gap-3 mb-5">
-          <Input type="number" placeholder="0" min={0} max={1000} defaultValue={0} />
+        <div className="mb-5 flex gap-3">
+          <Input
+            type="number"
+            placeholder="0"
+            min={0}
+            max={1000}
+            defaultValue={0}
+          />
           <Input type="number" min={100} max={1000} placeholder="1000" />
         </div>
 
@@ -38,82 +44,81 @@ export const Filters: React.FC<Props> = ({ className }) => {
         limit={6}
         defaultItems={[
           {
-            text: 'Сырный соус',
-            value: '1',
+            text: "Сырный соус",
+            value: "1",
           },
           {
-            text: 'Моцарелла',
-            value: '2',
+            text: "Моцарелла",
+            value: "2",
           },
           {
-            text: 'Чеснок',
-            value: '3',
+            text: "Чеснок",
+            value: "3",
           },
           {
-            text: 'Соленные огурчики',
-            value: '4',
+            text: "Соленные огурчики",
+            value: "4",
           },
           {
-            text: 'Красный лук',
-            value: '5',
+            text: "Красный лук",
+            value: "5",
           },
           {
-            text: 'Томаты',
-            value: '6',
+            text: "Томаты",
+            value: "6",
           },
         ]}
         items={[
           {
-            text: 'Сырный соус',
-            value: '1',
+            text: "Сырный соус",
+            value: "1",
           },
           {
-            text: 'Моцарелла',
-            value: '2',
+            text: "Моцарелла",
+            value: "2",
           },
           {
-            text: 'Чеснок',
-            value: '3',
+            text: "Чеснок",
+            value: "3",
           },
           {
-            text: 'Соленные огурчики',
-            value: '4',
+            text: "Соленные огурчики",
+            value: "4",
           },
           {
-            text: 'Красный лук',
-            value: '5',
+            text: "Красный лук",
+            value: "5",
           },
           {
-            text: 'Томаты',
-            value: '6',
+            text: "Томаты",
+            value: "6",
           },
           {
-            text: 'Сырный соус',
-            value: '7',
+            text: "Сырный соус",
+            value: "7",
           },
           {
-            text: 'Моцарелла',
-            value: '8',
+            text: "Моцарелла",
+            value: "8",
           },
           {
-            text: 'Чеснок',
-            value: '9',
+            text: "Чеснок",
+            value: "9",
           },
           {
-            text: 'Соленные огурчики',
-            value: '10',
+            text: "Соленные огурчики",
+            value: "10",
           },
           {
-            text: 'Красный лук',
-            value: '11',
+            text: "Красный лук",
+            value: "11",
           },
           {
-            text: 'Томаты',
-            value: '12',
+            text: "Томаты",
+            value: "12",
           },
         ]}
       />
-
     </div>
   );
 };

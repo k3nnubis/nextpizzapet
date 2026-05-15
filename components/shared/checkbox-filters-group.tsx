@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
-import { FilterCheckbox, FilterCheckboxProps } from './filter-checkbox';
-import { Input } from '../ui/input';
+import { FilterCheckbox, FilterCheckboxProps } from "./filter-checkbox";
+import { Input } from "../ui/input";
 
 type Item = FilterCheckboxProps;
 
@@ -25,7 +25,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   items,
   defaultItems,
   limit = 5,
-  searchInputPlaceholder = 'Поиск...',
+  searchInputPlaceholder = "Поиск...",
   className,
   selectedIds,
   onClickCheckbox,
@@ -33,7 +33,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   name,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = React.useState("");
 
   const filtredItems = items.filter((item) =>
     item.text.toLowerCase().includes(searchValue.toLowerCase()),
@@ -42,34 +42,37 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   if (loading) {
     return (
       <div className={className}>
-        <p className="font-bold mb-3">{title}</p>
+        <p className="mb-3 font-bold">{title}</p>
 
         {...Array(limit)
           .fill(0)
           .map((_, index) => (
-            <div key={index} className="w-full mb-4 h-6 bg-gray-200 rounded-[8px] animate-pulse" />
+            <div
+              key={index}
+              className="mb-4 h-6 w-full animate-pulse rounded-[8px] bg-gray-200"
+            />
           ))}
 
-        <div className="w-28 h-4 bg-gray-200 rounded-[8px] animate-pulse" />
+        <div className="h-4 w-28 animate-pulse rounded-[8px] bg-gray-200" />
       </div>
     );
   }
 
   return (
     <div className={className}>
-      <p className="font-bold mb-3">{title}</p>
+      <p className="mb-3 font-bold">{title}</p>
 
       {showAll && (
         <div className="mb-5">
           <Input
             placeholder={searchInputPlaceholder}
-            className="bg-gray-50 border-none"
+            className="border-none bg-gray-50"
             onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
       )}
 
-      <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
+      <div className="scrollbar flex max-h-96 flex-col gap-4 overflow-auto pr-2">
         {(showAll ? filtredItems : defaultItems || filtredItems).map((item) => (
           <FilterCheckbox
             onCheckedChange={() => onClickCheckbox?.(item.value)}
@@ -84,9 +87,12 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       </div>
 
       {items.length > limit && (
-        <div className={showAll ? 'border-t border-t-neutral-100 mt-4' : ''}>
-          <button onClick={() => setShowAll(!showAll)} className="text-primary mt-3">
-            {showAll ? 'Скрыть' : '+ Показать все'}
+        <div className={showAll ? "mt-4 border-t border-t-neutral-100" : ""}>
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-primary mt-3"
+          >
+            {showAll ? "Скрыть" : "+ Показать все"}
           </button>
         </div>
       )}

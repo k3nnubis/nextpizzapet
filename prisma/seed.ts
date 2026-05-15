@@ -1,4 +1,4 @@
-import { ProductItemUncheckedCreateInput } from './../src/generated/prisma/models/ProductItem';
+import { ProductItemUncheckedCreateInput } from "./../src/generated/prisma/models/ProductItem";
 import { categories, ingredients, products } from "./constants";
 import { prisma } from "./prisma-client";
 import { hashSync } from "bcrypt";
@@ -12,9 +12,9 @@ const generateProductItem = ({
   pizzaType,
   size,
 }: {
-  productId?: number,
-  pizzaType?: 1 | 2,
-  size?: 20 | 30 | 40,
+  productId?: number;
+  pizzaType?: 1 | 2;
+  size?: 20 | 30 | 40;
 }) => {
   return {
     productId,
@@ -25,70 +25,62 @@ const generateProductItem = ({
 };
 
 async function up() {
-  await prisma.user.createMany(
-    {
-      data: [
-        {
-          fullName: "John Parker",
-          email: "superchelik@example.com",
-          password: hashSync("password", 10),
-          verified: new Date(),
-          role: "USER",
-        },
-        {
-          fullName: "Admin",
-          email: "admin@example.com",
-          password: hashSync("password", 10),
-          verified: new Date(),
-          role: "ADMIN",
-        }
-      ],
-    }
-  );
-  await prisma.category.createMany(
-    {
-      data: categories,
-    }
-  );
-  await prisma.ingredient.createMany(
-    {
-      data: ingredients,
-    }
-  );
-  await prisma.product.createMany(
-    {
-      data: products,
-    }
-  );
+  await prisma.user.createMany({
+    data: [
+      {
+        fullName: "John Parker",
+        email: "superchelik@example.com",
+        password: hashSync("password", 10),
+        verified: new Date(),
+        role: "USER",
+      },
+      {
+        fullName: "Admin",
+        email: "admin@example.com",
+        password: hashSync("password", 10),
+        verified: new Date(),
+        role: "ADMIN",
+      },
+    ],
+  });
+  await prisma.category.createMany({
+    data: categories,
+  });
+  await prisma.ingredient.createMany({
+    data: ingredients,
+  });
+  await prisma.product.createMany({
+    data: products,
+  });
   const pizza1 = await prisma.product.create({
     data: {
-      name: 'Пеперонни фреш',
-      imageUrl: '/products-unique/peperonni-fresh.avif',
+      name: "Пеперонни фреш",
+      imageUrl: "/products-unique/peperonni-fresh.avif",
       categoryId: 1,
       ingredients: {
         connect: ingredients.slice(0, 5),
-      }
-    }
+      },
+    },
   });
   const pizza2 = await prisma.product.create({
     data: {
-      name: 'Сырная',
-      imageUrl: '/products-unique/syrnaya.avif',
+      name: "Сырная",
+      imageUrl: "/products-unique/syrnaya.avif",
       categoryId: 1,
       ingredients: {
         connect: ingredients.slice(3, 10),
-      }
-    }
+      },
+    },
   });
   const pizza3 = await prisma.product.create({
     data: {
-      name: 'Диабло',
-      imageUrl: '/products-unique/diablo.avif',
+      name: "Диабло",
+      imageUrl: "/products-unique/diablo.avif",
       categoryId: 1,
       ingredients: {
         connect: ingredients.slice(2, 11),
-      }
-    }
+      },
+    },
   });
 
   await prisma.productItem.createMany({
@@ -129,8 +121,7 @@ async function up() {
       generateProductItem({ productId: 15 }),
       generateProductItem({ productId: 16 }),
       generateProductItem({ productId: 17 }),
-
-    ]
+    ],
   });
 
   await prisma.cart.createMany({
@@ -138,18 +129,17 @@ async function up() {
       {
         userId: 1,
         totalAmmount: 0,
-        token: '1111111',
+        token: "1111111",
       },
       {
         userId: 2,
         totalAmmount: 0,
-        token: '23232323',
+        token: "23232323",
       },
-    ]
+    ],
   });
   await prisma.cartItem.create({
-    data:
-    {
+    data: {
       productItemId: 1,
       cartId: 1,
       quantity: 2,
@@ -178,12 +168,12 @@ async function main() {
   }
 }
 
-main().
-  then(async () => {
+main()
+  .then(async () => {
     await prisma.$disconnect();
   })
   .catch(async (e) => {
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);
-  })
+  });
