@@ -67,7 +67,7 @@ button {
   --popover-foreground: oklch(0.141 0.005 285.823);
   --primary: oklch(0.705 0.213 47.604);
   --primary-foreground: oklch(0.98 0.016 73.684);
-  --secondary: oklch(0.967 0.001 286.375);
+  --secondary: oklch(96.744% 0.00143 285.225);
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
@@ -90,6 +90,7 @@ button {
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.213 47.604);
+  --shadow-theme-switcher: inset 8px -4px 0px 0px #ff6900;
 }
 
 .dark {
