@@ -6,6 +6,7 @@ import { Button } from "../ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { ThemeSwitch } from "./theme-switch";
+import { SearchInput } from "./search-input";
 
 interface Props {
   className?: string;
@@ -29,7 +30,9 @@ export const Header: React.FC<Props> = ({ className }) => {
             </div>
           </div>
         </Link>
-        <div className="mx-10 flex-1">123</div>
+        <div className="mx-10 flex-1">
+          <SearchInput />
+        </div>
 
         {/* Правая часть */}
         <div className="flex items-center gap-3">
@@ -49,6 +52,8 @@ export const Header: React.FC<Props> = ({ className }) => {
               <ArrowRight className="absolute right-5 w-5 -translate-x-2 opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
             </Button>
           </div>
+
+          {/* <ThemeSwitch /> */}
         </div>
       </Container>
     </header>

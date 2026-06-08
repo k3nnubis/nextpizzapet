@@ -15,7 +15,7 @@ interface Props {
   searchInputPlaceholder?: string;
   className?: string;
   selectedIds?: Set<string>;
-  onClickCheckbox?: (value: string) => void;
+  onClickCheckbox?: (id: string) => void;
   loading?: boolean;
   name?: string;
 }
@@ -44,7 +44,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       <div className={className}>
         <p className="mb-3 font-bold">{title}</p>
 
-        {...Array(limit)
+        {Array(limit)
           .fill(0)
           .map((_, index) => (
             <div
