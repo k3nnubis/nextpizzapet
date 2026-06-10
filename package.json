@@ -8,7 +8,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "next lint",
+    "lint": "eslint .",
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:generate": "prisma generate",

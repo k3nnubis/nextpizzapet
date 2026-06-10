@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "../ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { ThemeSwitch } from "./theme-switch";
 import { SearchInput } from "./search-input";
 
 interface Props {

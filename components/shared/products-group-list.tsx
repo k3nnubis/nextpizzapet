@@ -7,9 +7,19 @@ import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/store/category";
 
+interface ProductGroupItem {
+  id: number;
+  name: string;
+  imageUrl: string;
+  price: number;
+  items: Array<{
+    price: number;
+  }>;
+}
+
 interface Props {
   title: string;
-  items: any[];
+  items: ProductGroupItem[];
   listClassName?: string;
   categoryId: number;
   className?: string;
@@ -42,7 +52,7 @@ export const ProductsGroupList: React.FC<Props> = ({
       <Title text={title} size="lg" className="mb-5 font-extrabold" />
 
       <div className={cn("grid grid-cols-3 gap-[50px]", listClassName)}>
-        {items.map((product, i) => (
+        {items.map((product) => (
           <ProductCard
             key={product.id}
             id={product.id}

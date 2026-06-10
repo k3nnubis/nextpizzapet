@@ -1,7 +1,6 @@
 import {
   Container,
   Filters,
-  ProductCard,
   ProductsGroupList,
   Title,
   TopBar,
