@@ -24,17 +24,18 @@ export const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
     setFocused(false);
   });
 
-  useDebounce(async () => {
-    try {
-      setIsLoading(true);
-      const response = await Api.products.search(searchQuery);
-      setProducts(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  },
+  useDebounce(
+    async () => {
+      try {
+        setIsLoading(true);
+        const response = await Api.products.search(searchQuery);
+        setProducts(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
     250,
     [searchQuery],
   );
@@ -42,7 +43,7 @@ export const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
   const onClickItem = () => {
     setFocused(false);
     setSearchQuery("");
-  }
+  };
 
   return (
     <>
@@ -102,7 +103,7 @@ export const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
             </div>
           ) : null}
         </div>
-      </div >
+      </div>
     </>
   );
 };
