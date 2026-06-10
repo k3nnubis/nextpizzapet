@@ -6,6 +6,7 @@ import {
   Title,
   TopBar,
 } from "@/components/shared";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -19,7 +20,9 @@ export default function Home() {
         <div className="flex gap-[80px]">
           {/* Фильтрация */}
           <div className="w-[250px]">
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
 
           {/* Список товаров */}
