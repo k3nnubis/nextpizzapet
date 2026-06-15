@@ -1,3 +1,4 @@
+export { ProductImage } from './product-image';
 export { SearchInput } from "./search-input";
 export { Container } from "./container";
 export { Header } from "./header";
@@ -11,3 +12,4 @@ export { RangeSlider } from "./range-slider";
 export { ProductCard } from "./product-card";
 export { ProductsGroupList } from "./products-group-list";
 export { ThemeSwitch } from "./theme-switch";
+export { VariantsSelector } from './variants-selector';

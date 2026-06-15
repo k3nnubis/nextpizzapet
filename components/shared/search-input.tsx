@@ -12,6 +12,29 @@ interface Props {
   className?: string;
 }
 
+const HighlightedText: React.FC<{ text: string; query: string }> = ({
+  text,
+  query,
+}) => {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const matchIndex = text.toLocaleLowerCase().indexOf(normalizedQuery);
+  if (!normalizedQuery || matchIndex === -1) {
+    return text;
+  }
+
+  const matchEnd = matchIndex + normalizedQuery.length;
+
+  return (
+    <>
+      {text.slice(0, matchIndex)}
+      <span className="font-bold">
+        {text.slice(matchIndex, matchEnd)}
+      </span>
+      {text.slice(matchEnd)}
+    </>
+  );
+};
+
 export const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
   className,
 }) => {
@@ -94,7 +117,9 @@ export const SearchInput: React.FC<React.PropsWithChildren<Props>> = ({
                   height={32}
                   alt={product.name}
                 />
-                <span>{product.name}</span>
+                <span>
+                  <HighlightedText text={product.name} query={searchQuery} />
+                </span>
               </Link>
             ))
           ) : searchQuery.trim() ? (

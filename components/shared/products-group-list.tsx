@@ -11,8 +11,7 @@ interface ProductGroupItem {
   id: number;
   name: string;
   imageUrl: string;
-  price: number;
-  items: Array<{
+  variants: Array<{
     price: number;
   }>;
 }
@@ -45,7 +44,7 @@ export const ProductsGroupList: React.FC<Props> = ({
     if (intersection?.isIntersecting) {
       setActiveCategoryId(categoryId);
     }
-  }, [categoryId, intersection?.isIntersecting, title]);
+  }, [categoryId, intersection?.isIntersecting, setActiveCategoryId, title]);
 
   return (
     <div className={className} id={title} ref={intersectionRef}>
@@ -57,7 +56,13 @@ export const ProductsGroupList: React.FC<Props> = ({
             key={product.id}
             id={product.id}
             name={product.name}
-            price={product.items[0].price}
+            price={
+              product.variants.length > 0
+                ? Math.min(
+                    ...product.variants.map((variant) => variant.price),
+                  )
+                : 0
+            }
             imageUrl={product.imageUrl}
           />
         ))}
