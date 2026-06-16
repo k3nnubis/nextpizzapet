@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import type { Product } from "@/src/generated/prisma/client";
 import { axiosInstance } from "./instance";
 import { ApiRoutes } from "./constants";
 
