@@ -83,6 +83,6 @@ export const useFilters = (): ReturnProps => {
     setPizzaTypes: togglePizzaTypes,
     setSizes: toggleSizes,
     setSelectedIngredients: toggleIngredients,
-    clearPrices
+    clearPrices,
   };
 };

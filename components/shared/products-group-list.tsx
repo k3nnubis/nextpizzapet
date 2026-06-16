@@ -58,9 +58,7 @@ export const ProductsGroupList: React.FC<Props> = ({
             name={product.name}
             price={
               product.variants.length > 0
-                ? Math.min(
-                    ...product.variants.map((variant) => variant.price),
-                  )
+                ? Math.min(...product.variants.map((variant) => variant.price))
                 : 0
             }
             imageUrl={product.imageUrl}

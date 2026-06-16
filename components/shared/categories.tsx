@@ -22,7 +22,7 @@ export const Categories: React.FC<Props> = ({ items, className }) => {
           className={cn(
             "flex h-11 items-center rounded-2xl px-5 font-bold select-none",
             categoryActiveId === id &&
-            "text-primary bg-white shadow-md shadow-gray-200",
+              "text-primary bg-white shadow-md shadow-gray-200",
           )}
           href={`/#${name}`}
           key={index}

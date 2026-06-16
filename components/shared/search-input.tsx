@@ -27,9 +27,7 @@ const HighlightedText: React.FC<{ text: string; query: string }> = ({
   return (
     <>
       {text.slice(0, matchIndex)}
-      <span className="font-bold">
-        {text.slice(matchIndex, matchEnd)}
-      </span>
+      <span className="font-bold">{text.slice(matchIndex, matchEnd)}</span>
       {text.slice(matchEnd)}
     </>
   );
