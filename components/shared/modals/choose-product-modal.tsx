@@ -3,7 +3,7 @@
 import { Dialog } from "@/components/ui";
 import { DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { Product } from "@prisma/client";
+import { Product } from "@/src/generated/prisma/client";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { ChooseProductForm } from "../choose-product-form";

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Api } from "@/services/api-client";
-import { Product } from "@prisma/client";
+import { Product } from "@/src/generated/prisma/client";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import React, { useRef } from "react";

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useCategoryStore } from "@/store/category";
-import { Category } from "@prisma/client";
+import { Category } from "@/src/generated/prisma/client";
 import React from "react";
 
 interface Props {
