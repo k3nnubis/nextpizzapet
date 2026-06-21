@@ -1,4 +1,4 @@
-import { pizzaSize, pizzaType } from "../constants/pizza";
+import { PizzaSize, PizzaType } from "../constants/pizza";
 import { Ingredient, ProductItem } from "@/src/generated/prisma/client";
 
 /**
@@ -16,8 +16,8 @@ export const calcTotalPizzaPrice = (
   variants: ProductItem[],
   ingredients: Ingredient[],
   selectedIngredients: Set<number>,
-  size: pizzaSize,
-  type: pizzaType,
+  size: PizzaSize,
+  type: PizzaType,
 ) => {
   const pizzaPrice = variants.find((variant) => variant.pizzaType === type && variant.size === size)?.price || 0;
   const totalIngredientsPrice = ingredients

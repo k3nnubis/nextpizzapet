@@ -1,4 +1,4 @@
-import { mapPizzaType, type pizzaSize, type pizzaType, pizzaTypes } from "@/shared/constants/pizza";
+import { mapPizzaType, type PizzaSize, type PizzaType, pizzaTypes } from "@/shared/constants/pizza";
 import { calcAvailablePizzaSizes } from "@/shared/lib";
 import { ProductItem } from "@/src/generated/prisma/client";
 import React from "react";
@@ -9,8 +9,8 @@ interface UsePizzaOptionsProps {
 }
 
 export function usePizzaOptions({ variants }: UsePizzaOptionsProps) {
-  const [size, setSize] = React.useState<pizzaSize>(40);
-  const [type, setType] = React.useState<pizzaType>(1);
+  const [size, setSize] = React.useState<PizzaSize>(40);
+  const [type, setType] = React.useState<PizzaType>(1);
   const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
 
   const availablePizzaSizes = React.useMemo(() => {
@@ -24,18 +24,18 @@ export function usePizzaOptions({ variants }: UsePizzaOptionsProps) {
     const availableSize = availablePizzaSizes.find((pizzaSize) => !pizzaSize.disabled);
 
     if (!isAvailableSize && availableSize) {
-      setSize(Number(availableSize.value) as pizzaSize);
+      setSize(Number(availableSize.value) as PizzaSize);
     }
   }, [availablePizzaSizes, size]);
 
   const textDetails = `${size} см, ${mapPizzaType[type]} тесто`;
 
   const setPizzaSize = (value: string) => {
-    setSize(Number(value) as pizzaSize);
+    setSize(Number(value) as PizzaSize);
   };
 
   const setPizzaType = (value: string) => {
-    setType(Number(value) as pizzaType);
+    setType(Number(value) as PizzaType);
   };
 
   return {
