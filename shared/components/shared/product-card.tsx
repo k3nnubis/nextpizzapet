@@ -11,15 +11,10 @@ interface Props {
   price: number;
   imageUrl: string;
   className?: string;
+  isSingleProduct: boolean;
 }
 
-export const ProductCard: React.FC<Props> = ({
-  id,
-  name,
-  price,
-  imageUrl,
-  className,
-}) => {
+export const ProductCard: React.FC<Props> = ({ id, name, price, imageUrl, isSingleProduct, className }) => {
   return (
     <div className={className}>
       <Link href={`/product/${id}`}>
@@ -34,20 +29,26 @@ export const ProductCard: React.FC<Props> = ({
         <Title text={name} size="sm" className="mt-3 mb-1 font-bold" />
 
         <p className="text-sm text-gray-400">
-          Цыпленок, моцарела, сыры чеддер и пармезан, сырный соус, томаты. соус
-          альфредо, чеснок
+          Цыпленок, моцарела, сыры чеддер и пармезан, сырный соус, томаты. соус альфредо, чеснок
         </p>
       </Link>
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-[20px]">
-          от <b>{price} ₽</b>
-        </span>
-
-        <Button variant={"secondary"}>
-          <Plus size={20} className="mr-1" />
-          Добавить
-        </Button>
+        {isSingleProduct ? (
+          <span className="text-[20px]">
+            от <b>{price} ₽</b>
+          </span>
+        ) : (
+          <span className="text-[20px]">
+            <b>{price} ₽</b>
+          </span>
+        )}
+        <Link href={`/product/${id}`}>
+          <Button variant={"secondary"}>
+            <Plus size={20} className="mr-1" />
+            Добавить
+          </Button>
+        </Link>
       </div>
     </div>
   );

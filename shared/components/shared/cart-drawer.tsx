@@ -7,6 +7,8 @@ import Link from "next/link";
 import { Button } from "../ui";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { getCartItemDetails } from "@/shared/lib";
+import { useCartStore } from "@/shared/store";
+import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
 
 interface CartDrawerProps {
   className?: string;
@@ -14,27 +16,50 @@ interface CartDrawerProps {
 }
 
 export function CartDrawer({ className, children }: CartDrawerProps) {
+  const totalAmount = useCartStore((state) => state.totalAmount);
+  const items = useCartStore((state) => state.items);
+  const fetchCartItems = useCartStore((state) => state.fetchCartItems);
+  const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
+  const removeCartItem = useCartStore((state) => state.removeCartItem);
+
+  React.useEffect(() => {
+    fetchCartItems();
+  }, []);
+
+  const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="flex flex-col justify-between bg-[#F4F1EE] pb-0">
         <SheetHeader className="mt-2">
           <SheetTitle>
-            В корзине <span className="font-bold">3 товара</span>
+            В корзине <span className="font-bold">{items.length} товара</span>
           </SheetTitle>
         </SheetHeader>
 
         <div className="scrollbar mt-5 flex-1 overflow-auto">
-          <div className="mb-2">
-            <CartDrawerItem
-              id={1}
-              imageUrl={"/products-unique/syrnaya.avif"}
-              name={"Сырная"}
-              price={419}
-              details={getCartItemDetails(2, 30, [{ name: "Цыпленок" }, { name: "Курица" }])}
-              quantity={1}
-            />
-          </div>
+          {items.map((item) => (
+            <div className="mb-2" key={item.id}>
+              <CartDrawerItem
+                id={item.id}
+                imageUrl={item.imageUrl}
+                name={item.name}
+                price={item.price}
+                details={
+                  item.pizzaSize && item.pizzaType
+                    ? getCartItemDetails(item.pizzaType as PizzaType, item.pizzaSize as PizzaSize, item.ingredients)
+                    : ""
+                }
+                quantity={item.quantity}
+                onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                onClickRemove={() => removeCartItem(item.id)}
+              />
+            </div>
+          ))}
         </div>
 
         <SheetFooter className="bg-white p-8">
@@ -44,7 +69,7 @@ export function CartDrawer({ className, children }: CartDrawerProps) {
                 Итого
                 <div className="relative -top-1 mx-2 flex-1 border-b border-dashed border-b-neutral-200" />
               </span>
-              <span className="text-lg font-bold">500 Р</span>
+              <span className="text-lg font-bold">{totalAmount} ₽</span>
             </div>
             <Link href="/cart">
               <Button type="submit" className="h-12 w-full text-base">

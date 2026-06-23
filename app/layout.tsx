@@ -1,4 +1,5 @@
 import { Nunito } from "next/font/google";
+import { AppToaster } from "@/shared/components/shared/app-toaster";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -17,7 +18,10 @@ export default function BossRootLayout({
       <head>
         <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
       </head>
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children}
+        <AppToaster />
+      </body>
     </html>
   );
 }

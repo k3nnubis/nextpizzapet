@@ -2,22 +2,24 @@ import { cn } from "@/shared/lib/utils";
 import React from "react";
 import { Title } from "./title";
 import { Button } from "../ui";
+import { LoaderCircle } from "lucide-react";
 
 interface ChooseProductFormProps {
   name: string;
   imageUrl: string;
-  onClickAdd?: VoidFunction;
+  onSubmit?: VoidFunction;
   className?: string;
+  price: number;
+  loading?: boolean;
 }
 export function ChooseProductForm({
   name,
   imageUrl,
-  onClickAdd,
+  onSubmit,
+  loading,
+  price,
   className,
 }: ChooseProductFormProps) {
-  const textDetails = "30 см, традиционное тесто 30";
-  const totalPrice = 350;
-
   return (
     <div className={cn("flex flex-1", className)}>
       <div className="relative flex w-full flex-1 items-center justify-center">
@@ -31,10 +33,19 @@ export function ChooseProductForm({
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <Title text={name} size="md" className="mb-1 font-extrabold" />
 
-        <p className="text-gray-400">{textDetails}</p>
-
-        <Button className="mt-10 h-[55px] w-full rounded-[18px] px-10 text-base">
-          Добавить в корзину за {totalPrice} Р
+        <Button
+          onClick={() => onSubmit?.()}
+          className={cn(
+            "mt-10 h-[55px] w-full rounded-[18px] px-10 text-base transition-all duration-300",
+            loading && "bg-black",
+          )}
+          disabled={loading}
+        >
+          {loading ? (
+            <LoaderCircle className="ml-3 animate-spin" size={16} />
+          ) : (
+            `Добавить в корзину за ${price} ₽`
+          )}
         </Button>
       </div>
     </div>

@@ -13,6 +13,8 @@ export function usePizzaOptions({ variants }: UsePizzaOptionsProps) {
   const [type, setType] = React.useState<PizzaType>(1);
   const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
 
+  const currentItemId = variants.find((variant) => variant.pizzaType === type && variant.size === size)?.id;
+
   const availablePizzaSizes = React.useMemo(() => {
     return calcAvailablePizzaSizes(variants, type);
   }, [type, variants]);
@@ -48,5 +50,6 @@ export function usePizzaOptions({ variants }: UsePizzaOptionsProps) {
     setPizzaType,
     selectedIngredients,
     availablePizzaSizes,
+    currentItemId,
   };
 }

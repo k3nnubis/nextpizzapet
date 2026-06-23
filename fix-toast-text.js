@@ -1,0 +1,13 @@
+const fs = require("fs");
+const p = "shared/components/shared/modals/choose-product-modal.tsx";
+let s = fs.readFileSync(p, "utf8");
+const ru = (...a) => String.fromCharCode(...a);
+const pizzaOk = ru(1055,1080,1094,1094,1072,32,1076,1086,1073,1072,1074,1083,1077,1085,1072,32,1074,32,1082,1086,1088,1079,1080,1085,1091,33);
+const productOk = ru(1058,1086,1074,1072,1088,32,1076,1086,1073,1072,1074,1083,1077,1085,32,1074,32,1082,1086,1088,1079,1080,1085,1091,33);
+const pizzaFail = ru(1053,1077,32,1091,1076,1072,1083,1086,1089,1100,32,1076,1086,1073,1072,1074,1080,1090,1100,32,1087,1080,1094,1094,1091,32,1074,32,1082,1086,1088,1079,1080,1085,1091,46);
+const productFail = ru(1053,1077,32,1091,1076,1072,1083,1086,1089,1100,32,1076,1086,1073,1072,1074,1080,1090,1100,32,1090,1086,1074,1072,1088,32,1074,32,1082,1086,1088,1079,1080,1085,1091,46);
+const success = "      toast.success(isPizza ? \"" + pizzaOk + "\" : \"" + productOk + "\");";
+const error = "      toast.error(isPizza ? \"" + pizzaFail + "\" : \"" + productFail + "\");";
+s = s.replace(/^\s*toast\.success\(isPizza \? .*$/m, success);
+s = s.replace(/^\s*toast\.error\(isPizza \? .*$/m, error);
+fs.writeFileSync(p, s, "utf8");

@@ -13,6 +13,7 @@ interface ProductGroupItem {
   imageUrl: string;
   variants: Array<{
     price: number;
+    pizzaType?: number | null;
   }>;
 }
 
@@ -33,12 +34,9 @@ export const ProductsGroupList: React.FC<Props> = ({
 }) => {
   const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
   const intersectionRef = React.useRef<HTMLDivElement>(null);
-  const intersection = useIntersection(
-    intersectionRef as React.RefObject<HTMLElement>,
-    {
-      threshold: 0.4,
-    },
-  );
+  const intersection = useIntersection(intersectionRef as React.RefObject<HTMLElement>, {
+    threshold: 0.4,
+  });
 
   React.useEffect(() => {
     if (intersection?.isIntersecting) {
@@ -57,11 +55,10 @@ export const ProductsGroupList: React.FC<Props> = ({
             id={product.id}
             name={product.name}
             price={
-              product.variants.length > 0
-                ? Math.min(...product.variants.map((variant) => variant.price))
-                : 0
+              product.variants.length > 0 ? Math.min(...product.variants.map((variant) => variant.price)) : 0
             }
             imageUrl={product.imageUrl}
+            isSingleProduct={product.variants.some((variant) => Boolean(variant.pizzaType))}
           />
         ))}
       </div>

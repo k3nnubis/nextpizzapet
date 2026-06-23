@@ -8,16 +8,25 @@ import { IngredientCard } from "./ingredient-card";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { usePizzaOptions } from "@/shared/hooks/use-pizza-options";
 import { calcTotalPizzaPrice } from "@/shared/lib";
+import { LoaderCircle } from "lucide-react";
 
 interface ChoosePizzaFormProps {
   name: string;
   imageUrl: string;
   ingredients: Ingredient[];
   variants: ProductItem[];
-  onClickAddCart?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
   className?: string;
+  loading?: boolean;
 }
-export function ChoosePizzaForm({ name, variants, imageUrl, ingredients, onClickAddCart }: ChoosePizzaFormProps) {
+export function ChoosePizzaForm({
+  name,
+  variants,
+  imageUrl,
+  ingredients,
+  loading,
+  onSubmit,
+}: ChoosePizzaFormProps) {
   const {
     size,
     type,
@@ -27,10 +36,16 @@ export function ChoosePizzaForm({ name, variants, imageUrl, ingredients, onClick
     setPizzaSize,
     setPizzaType,
     selectedIngredients,
+    currentItemId,
     availablePizzaSizes,
   } = usePizzaOptions({ variants });
 
   const totalPrice = calcTotalPizzaPrice(variants, ingredients, selectedIngredients, size, type);
+
+  const handleSubmit = () => {
+    if (!currentItemId) return;
+    onSubmit(currentItemId, Array.from(selectedIngredients));
+  };
 
   return (
     <div className={cn("flex flex-1")}>
@@ -68,8 +83,19 @@ export function ChoosePizzaForm({ name, variants, imageUrl, ingredients, onClick
             </Carousel>
           </div>
         )}
-        <Button className="mt-10 h-[55px] w-full rounded-[18px] px-10 text-base">
-          Добавить в корзину за {totalPrice} Р
+        <Button
+          onClick={handleSubmit}
+          className={cn(
+            "mt-10 h-[55px] w-full rounded-[18px] px-10 text-base transition-all duration-300",
+            loading && "bg-black",
+          )}
+          disabled={loading}
+        >
+          {loading ? (
+            <LoaderCircle className="ml-3 animate-spin" size={16} />
+          ) : (
+            `Добавить в корзину за ${totalPrice} ₽`
+          )}
         </Button>
       </div>
     </div>
