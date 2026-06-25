@@ -295,7 +295,7 @@ export type CartItemScalarWhereWithAggregatesInput = {
 }
 
 export type CartItemCreateInput = {
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   productItem: Prisma.ProductItemCreateNestedOneWithoutCartItemsInput
@@ -307,7 +307,7 @@ export type CartItemUncheckedCreateInput = {
   id?: number
   productItemId: number
   cartId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   ingredients?: Prisma.IngredientUncheckedCreateNestedManyWithoutCartItemsInput
@@ -336,7 +336,7 @@ export type CartItemCreateManyInput = {
   id?: number
   productItemId: number
   cartId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -530,7 +530,7 @@ export type CartItemUncheckedUpdateManyWithoutCartNestedInput = {
 }
 
 export type CartItemCreateWithoutProductItemInput = {
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   cart: Prisma.CartCreateNestedOneWithoutItemsInput
@@ -540,7 +540,7 @@ export type CartItemCreateWithoutProductItemInput = {
 export type CartItemUncheckedCreateWithoutProductItemInput = {
   id?: number
   cartId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   ingredients?: Prisma.IngredientUncheckedCreateNestedManyWithoutCartItemsInput
@@ -585,7 +585,7 @@ export type CartItemScalarWhereInput = {
 }
 
 export type CartItemCreateWithoutIngredientsInput = {
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   productItem: Prisma.ProductItemCreateNestedOneWithoutCartItemsInput
@@ -596,7 +596,7 @@ export type CartItemUncheckedCreateWithoutIngredientsInput = {
   id?: number
   productItemId: number
   cartId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -623,7 +623,7 @@ export type CartItemUpdateManyWithWhereWithoutIngredientsInput = {
 }
 
 export type CartItemCreateWithoutCartInput = {
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   productItem: Prisma.ProductItemCreateNestedOneWithoutCartItemsInput
@@ -633,7 +633,7 @@ export type CartItemCreateWithoutCartInput = {
 export type CartItemUncheckedCreateWithoutCartInput = {
   id?: number
   productItemId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   ingredients?: Prisma.IngredientUncheckedCreateNestedManyWithoutCartItemsInput
@@ -668,7 +668,7 @@ export type CartItemUpdateManyWithWhereWithoutCartInput = {
 export type CartItemCreateManyProductItemInput = {
   id?: number
   cartId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -727,7 +727,7 @@ export type CartItemUncheckedUpdateManyWithoutIngredientsInput = {
 export type CartItemCreateManyCartInput = {
   id?: number
   productItemId: number
-  quantity: number
+  quantity?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
