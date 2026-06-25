@@ -1,35 +1,19 @@
-import {
-  Container,
-  Filters,
-  ProductsGroupList,
-  Title,
-  TopBar,
-} from "@/shared/components/shared";
-import { prisma } from "@/prisma/prisma-client";
+﻿import { Container, Filters, ProductsGroupList, Title, TopBar } from "@/shared/components/shared";
 import { Suspense } from "react";
+import { findProducts, GetSearchParams } from "@/shared/lib/find-products";
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          variants: true,
-        },
-      },
-    },
-  });
-
+export default async function Home({ searchParams }: { searchParams: Promise<GetSearchParams> }) {
+  const params = await searchParams;
+  const queryString = new URLSearchParams(
+    Object.entries(params).filter(([, value]) => value !== undefined) as [string, string][],
+  ).toString();
+  const categories = await findProducts(params);
   return (
     <>
       <Container className="mt-10">
         <Title text="Все пиццы" size="lg" className="font-extrabold" />
       </Container>
-      <TopBar
-        categories={categories.filter(
-          (category) => category.products.length > 0,
-        )}
-      />
+      <TopBar categories={categories.filter((category) => category.products.length > 0)} />
 
       <Container className="mt-10 pb-14">
         <div className="flex gap-[80px]">
@@ -51,6 +35,7 @@ export default async function Home() {
                       title={category.name}
                       categoryId={category.id}
                       items={category.products}
+                      queryString={queryString}
                     />
                   ),
               )}
@@ -61,3 +46,6 @@ export default async function Home() {
     </>
   );
 }
+
+
+

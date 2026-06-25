@@ -1,4 +1,4 @@
-import { useSearchParams } from "next/navigation";
+﻿import { useSearchParams } from "next/navigation";
 import { useSet } from "react-use";
 import React from "react";
 
@@ -29,10 +29,7 @@ interface ReturnProps extends Filters {
 }
 
 export const useFilters = (): ReturnProps => {
-  const searchParams = useSearchParams() as unknown as Map<
-    keyof QueryFilters,
-    string
-  >;
+  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
 
   // Фильтр ингредиентов
   const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
@@ -41,18 +38,12 @@ export const useFilters = (): ReturnProps => {
 
   //  Фильтр размеров
   const [sizes, { toggle: toggleSizes }] = useSet(
-    new Set<string>(
-      searchParams.get("sizes") ? searchParams.get("sizes")?.split(",") : [],
-    ),
+    new Set<string>(searchParams.get("sizes") ? searchParams.get("sizes")?.split(",") : []),
   );
 
   // Фильтра типа пиццы
   const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
-    new Set<string>(
-      searchParams.get("pizzaTypes")
-        ? searchParams.get("pizzaTypes")?.split(",")
-        : [],
-    ),
+    new Set<string>(searchParams.get("pizzaTypes") ? searchParams.get("pizzaTypes")?.split(",") : []),
   );
 
   // Фильтр стоимости
@@ -70,19 +61,21 @@ export const useFilters = (): ReturnProps => {
   };
 
   const clearPrices = () => {
-    updatePrice("priceFrom", 0);
-    updatePrice("priceTo", 1000);
+    setPrices({});
   };
 
-  return {
-    sizes,
-    pizzaTypes,
-    selectedIngredients,
-    prices,
-    setPrices: updatePrice,
-    setPizzaTypes: togglePizzaTypes,
-    setSizes: toggleSizes,
-    setSelectedIngredients: toggleIngredients,
-    clearPrices,
-  };
+  return React.useMemo(
+    () => ({
+      sizes,
+      pizzaTypes,
+      selectedIngredients,
+      prices,
+      setPrices: updatePrice,
+      setPizzaTypes: togglePizzaTypes,
+      setSizes: toggleSizes,
+      setSelectedIngredients: toggleIngredients,
+      clearPrices,
+    }),
+    [prices, pizzaTypes, sizes, selectedIngredients],
+  );
 };

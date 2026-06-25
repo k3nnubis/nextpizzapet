@@ -10,6 +10,7 @@ export { Filters } from "./filters";
 export { FilterCheckbox } from "./filter-checkbox";
 export { RangeSlider } from "./range-slider";
 export { ProductCard } from "./product-card";
+export { ProductCategoryProducts } from "./product-category-products";
 export { ProductsGroupList } from "./products-group-list";
 export { ThemeSwitch } from "./theme-switch";
 export { VariantsSelector } from "./variants-selector";
@@ -21,6 +22,7 @@ export { CartDrawer } from "./cart-drawer";
 export { CartDrawerItem } from "./cart-drawer-item";
 export { CountButton } from "./count-button";
 export { CountIconButton } from "./count-icon-button";
+export { ProductForm } from "./product-form";
 
 export * from "./modals";
 export { AppToaster } from "./app-toaster";

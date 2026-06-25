@@ -51,7 +51,7 @@ export function ChoosePizzaForm({
     <div className={cn("flex flex-1")}>
       <PizzaImage imageUrl={imageUrl} size={size} productName={name} />
 
-      <div className="w-[490px] bg-[#f7f6f5] p-7">
+      <div className={cn("w-[490px] rounded-lg bg-[#f7f6f5] p-7")}>
         <Title text={name} size="md" className="mb-1 font-extrabold" />
 
         <p className="text-gray-400">{textDetails}</p>

@@ -1,11 +1,10 @@
-import type { Product } from "@/src/generated/prisma/client";
 import { axiosInstance } from "./instance";
 import { ApiRoutes } from "./constants";
+import { ProductWithRelations } from "@/@types/prisma";
 
-export const search = async (query: string): Promise<Product[]> => {
-  const { data } = await axiosInstance.get<Product[]>(
-    ApiRoutes.SEARCH_PRODUCTS,
-    { params: { query } },
-  );
+export const search = async (query: string): Promise<ProductWithRelations[]> => {
+  const { data } = await axiosInstance.get<ProductWithRelations[]>(ApiRoutes.SEARCH_PRODUCTS, {
+    params: { query },
+  });
   return data;
 };

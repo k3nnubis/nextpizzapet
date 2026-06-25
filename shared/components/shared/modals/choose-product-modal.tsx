@@ -1,15 +1,16 @@
-"use client";
+﻿"use client";
 
 import { Dialog } from "@/shared/components/ui";
-import { DialogContent, DialogTitle } from "@/shared/components/ui/dialog";
+import { DialogContent } from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/lib/utils";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChooseProductForm } from "../choose-product-form";
 import { ProductWithRelations } from "@/@types/prisma";
 import { ChoosePizzaForm } from "../choose-pizza-form";
 import { useCartStore } from "@/shared/store";
 import toast from "react-hot-toast";
+import { ProductForm } from "../product-form";
 
 interface ChooseProductModalProps {
   product: ProductWithRelations;
@@ -18,16 +19,23 @@ interface ChooseProductModalProps {
 
 export function ChooseProductModal({ product, className }: ChooseProductModalProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(true);
   const firstItem = product.variants[0];
   const isPizzaForm = Boolean(firstItem.pizzaType);
   const addCartItem = useCartStore((state) => state.addCartItem);
   const loading = useCartStore((state) => state.loading);
 
+  React.useEffect(() => {
+    if (pathname.startsWith("/product/")) {
+      setOpen(true);
+    }
+  }, [pathname]);
+
   const handleClose = () => {
     setOpen(false);
     setTimeout(() => {
-      router.back();
+      router.push("/" + window.location.search);
     }, 200);
   };
 
@@ -60,24 +68,7 @@ export function ChooseProductModal({ product, className }: ChooseProductModalPro
           className,
         )}
       >
-        {isPizzaForm ? (
-          <ChoosePizzaForm
-            name={product.name}
-            imageUrl={product.imageUrl}
-            ingredients={product.ingredients}
-            variants={product.variants}
-            onSubmit={onAddCartItem}
-            loading={loading}
-          />
-        ) : (
-          <ChooseProductForm
-            imageUrl={product.imageUrl}
-            name={product.name}
-            onSubmit={onAddCartItem}
-            price={firstItem.price}
-            loading={loading}
-          />
-        )}
+        <ProductForm product={product} closeFunc={handleClose} />
       </DialogContent>
     </Dialog>
   );

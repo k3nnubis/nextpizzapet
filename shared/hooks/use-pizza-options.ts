@@ -9,7 +9,7 @@ interface UsePizzaOptionsProps {
 }
 
 export function usePizzaOptions({ variants }: UsePizzaOptionsProps) {
-  const [size, setSize] = React.useState<PizzaSize>(40);
+  const [size, setSize] = React.useState<PizzaSize>(20);
   const [type, setType] = React.useState<PizzaType>(1);
   const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
 

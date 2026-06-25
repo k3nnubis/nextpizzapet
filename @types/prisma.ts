@@ -1,4 +1,5 @@
 import {
+  Category,
   Ingredient,
   Product,
   ProductItem,
@@ -7,4 +8,8 @@ import {
 export type ProductWithRelations = Product & {
   variants: ProductItem[];
   ingredients: Ingredient[];
+};
+
+export type CategoryWithProducts = Category & {
+  products: ProductWithRelations[];
 };

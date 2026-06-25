@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Title } from "./title";
@@ -6,23 +6,17 @@ import { cn } from "@/shared/lib/utils";
 import { ProductCard } from "./product-card";
 import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/shared/store/category";
+import { ProductWithRelations } from "@/@types/prisma";
 
-interface ProductGroupItem {
-  id: number;
-  name: string;
-  imageUrl: string;
-  variants: Array<{
-    price: number;
-    pizzaType?: number | null;
-  }>;
-}
+
 
 interface Props {
   title: string;
-  items: ProductGroupItem[];
+  items: ProductWithRelations[];
   listClassName?: string;
   categoryId: number;
   className?: string;
+  queryString?: string;
 }
 
 export const ProductsGroupList: React.FC<Props> = ({
@@ -31,6 +25,7 @@ export const ProductsGroupList: React.FC<Props> = ({
   listClassName,
   categoryId,
   className,
+  queryString,
 }) => {
   const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
   const intersectionRef = React.useRef<HTMLDivElement>(null);
@@ -59,9 +54,13 @@ export const ProductsGroupList: React.FC<Props> = ({
             }
             imageUrl={product.imageUrl}
             isSingleProduct={product.variants.some((variant) => Boolean(variant.pizzaType))}
+            queryString={queryString}
+            ingredients={product.ingredients}
           />
         ))}
       </div>
     </div>
   );
 };
+
+

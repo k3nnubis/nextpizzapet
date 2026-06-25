@@ -1,14 +1,15 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LoaderCircle } from "lucide-react";
 import React from "react";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
 import Link from "next/link";
-import { Button } from "../ui";
+import { Button, Skeleton } from "../ui";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { getCartItemDetails } from "@/shared/lib";
 import { useCartStore } from "@/shared/store";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { cn } from "@/shared/lib/utils";
 
 interface CartDrawerProps {
   className?: string;
@@ -21,6 +22,7 @@ export function CartDrawer({ className, children }: CartDrawerProps) {
   const fetchCartItems = useCartStore((state) => state.fetchCartItems);
   const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
   const removeCartItem = useCartStore((state) => state.removeCartItem);
+  const loading = useCartStore((state) => state.loading);
 
   React.useEffect(() => {
     fetchCartItems();
@@ -42,24 +44,46 @@ export function CartDrawer({ className, children }: CartDrawerProps) {
         </SheetHeader>
 
         <div className="scrollbar mt-5 flex-1 overflow-auto">
-          {items.map((item) => (
-            <div className="mb-2" key={item.id}>
-              <CartDrawerItem
-                id={item.id}
-                imageUrl={item.imageUrl}
-                name={item.name}
-                price={item.price}
-                details={
-                  item.pizzaSize && item.pizzaType
-                    ? getCartItemDetails(item.pizzaType as PizzaType, item.pizzaSize as PizzaSize, item.ingredients)
-                    : ""
-                }
-                quantity={item.quantity}
-                onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
-                onClickRemove={() => removeCartItem(item.id)}
-              />
-            </div>
-          ))}
+          {loading
+            ? [...Array(items.length)].map((_, index) => (
+                <div className="mb-2 flex gap-6 bg-white p-5" key={index}>
+                  <Skeleton className="h-[65px] w-[65px] rounded-full" />
+
+                  <div className="flex-1">
+                    <Skeleton className="mb-2 h-5 w-2/3" />
+                    <Skeleton className="h-4 w-1/2" />
+
+                    <hr className="my-3" />
+
+                    <div className="flex items-center justify-between">
+                      <Skeleton className="h-8 w-[90px]" />
+                      <Skeleton className="h-5 w-[70px]" />
+                    </div>
+                  </div>
+                </div>
+              ))
+            : items.map((item) => (
+                <div className="mb-2" key={item.id}>
+                  <CartDrawerItem
+                    id={item.id}
+                    imageUrl={item.imageUrl}
+                    name={item.name}
+                    price={item.price}
+                    details={
+                      item.pizzaSize && item.pizzaType
+                        ? getCartItemDetails(
+                            item.pizzaType as PizzaType,
+                            item.pizzaSize as PizzaSize,
+                            item.ingredients,
+                          )
+                        : ""
+                    }
+                    quantity={item.quantity}
+                    onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                    onClickRemove={() => removeCartItem(item.id)}
+                  />
+                </div>
+              ))}
         </div>
 
         <SheetFooter className="bg-white p-8">
@@ -72,9 +96,18 @@ export function CartDrawer({ className, children }: CartDrawerProps) {
               <span className="text-lg font-bold">{totalAmount} ₽</span>
             </div>
             <Link href="/cart">
-              <Button type="submit" className="h-12 w-full text-base">
-                Оформить заказ
-                <ArrowRight className="ml-2 w-5" />
+              <Button
+                type="submit"
+                disabled={loading}
+                className={cn("h-12 w-full text-base", loading && "bg-black")}
+              >
+                {loading ? (
+                  <LoaderCircle className="ml-3 animate-spin" size={16} />
+                ) : (
+                  <>
+                    Оформить заказ <ArrowRight className="ml-2 w-5" />{" "}
+                  </>
+                )}
               </Button>
             </Link>
           </div>
