@@ -23,6 +23,9 @@ export { CartDrawerItem } from "./cart-drawer-item";
 export { CountButton } from "./count-button";
 export { CountIconButton } from "./count-icon-button";
 export { ProductForm } from "./product-form";
+export { CheckoutWhiteBlock } from "./checkout-white-block";
+export { CheckoutItemDetails } from "./checkout-item-details";
+export { CheckoutItem } from "./checkout-item";
 
 export * from "./modals";
 export { AppToaster } from "./app-toaster";

@@ -7,3 +7,4 @@ export { Slider } from "./slider";
 export { Checkbox } from "./checkbox";
 export { Dialog } from "./dialog";
 export { Select } from "./select";
+export { Textarea } from "./textarea";
