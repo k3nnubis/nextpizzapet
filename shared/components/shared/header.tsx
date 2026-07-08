@@ -6,7 +6,7 @@ import { Button } from "../ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
-import { CartButton } from "./cart-button";
+import { CartButton } from "./cart/cart-button";
 
 interface Props {
   hasSearch?: boolean;

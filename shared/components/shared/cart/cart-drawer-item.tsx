@@ -1,9 +1,9 @@
 import React from "react";
-import { CartItemProps } from "./cart-item-details/cart-item-details.types";
+import { CartItemProps } from "../cart-item-details/cart-item-details.types";
 import { cn } from "@/shared/lib/utils";
 
-import * as CartItem from "./cart-item-details";
-import { CountButton } from "./count-button";
+import * as CartItem from "../cart-item-details";
+import { CountButton } from "../count-button";
 import { Trash2Icon } from "lucide-react";
 
 interface CartDrawerItemProps extends CartItemProps {

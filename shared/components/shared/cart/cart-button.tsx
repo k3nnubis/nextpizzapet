@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Button, Skeleton } from "../ui";
+import { Button, Skeleton } from "../../ui";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { CartDrawer } from "./cart-drawer";

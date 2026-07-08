@@ -1,14 +1,28 @@
+"use client";
 import {
   CheckoutItem,
   CheckoutItemDetails,
+  CheckoutItemSkeleton,
+  CheckoutSidebar,
   CheckoutWhiteBlock,
   Container,
   Title,
 } from "@/shared/components/shared";
-import { Button, Input, Textarea } from "@/shared/components/ui";
+import { Button, Input, Skeleton, Textarea } from "@/shared/components/ui";
+import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useCart, useCartItemActions } from "@/shared/hooks";
+import { getCartItemDetails } from "@/shared/lib";
 import { ArrowRight, Package, Percent, Truck } from "lucide-react";
+import React from "react";
 
 export default function CheckoutPage() {
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart();
+
+  const { loadingItemIds, onClickCountButton, onClickRemove } = useCartItemActions(
+    updateItemQuantity,
+    removeCartItem,
+  );
+
   return (
     <Container className="mt-10">
       <Title text="Оформление заказа" className="mb-8 text-[36px] font-extrabold" />
@@ -18,22 +32,29 @@ export default function CheckoutPage() {
         <div className="mb-20 flex flex-1 flex-col gap-10">
           <CheckoutWhiteBlock title="1. Корзина">
             <div className="flex flex-col gap-5">
-              <CheckoutItem
-                name="Чизбургер-пицца"
-                details="Средняя 30 см, традиционное тесто"
-                imageUrl="/products-unique/diablo.avif"
-                price={500}
-                quantity={10}
-                id={1}
-              />
-              <CheckoutItem
-                name="Чизбургер-пицца"
-                details="Средняя 30 см, традиционное тесто"
-                imageUrl="/products-unique/diablo.avif"
-                price={500}
-                quantity={10}
-                id={1}
-              />
+              {loading && items.length === 0
+                ? [...Array(3)].map((_, index) => <CheckoutItemSkeleton key={index} />)
+                : items.map((item) =>
+                    loadingItemIds.includes(item.id) ? (
+                      <CheckoutItemSkeleton key={item.id} />
+                    ) : (
+                      <CheckoutItem
+                        key={item.id}
+                        id={item.id}
+                        name={item.name}
+                        details={getCartItemDetails(
+                          item.ingredients,
+                          item.pizzaType as PizzaType,
+                          item.pizzaSize as PizzaSize,
+                        )}
+                        imageUrl={item.imageUrl}
+                        price={item.price}
+                        quantity={item.quantity}
+                        onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                        onClickRemove={() => onClickRemove(item.id)}
+                      />
+                    ),
+                  )}
             </div>
           </CheckoutWhiteBlock>
           <CheckoutWhiteBlock title="2. Персональные данные">
@@ -62,43 +83,7 @@ export default function CheckoutPage() {
         </div>
         {/* Правая часть */}
         <div className="w-[450px]">
-          <CheckoutWhiteBlock className="sticky top-4 p-6">
-            <div className="flex flex-col gap-1">
-              <span className="text-xl">Итого:</span>
-              <span className="text-[34px] font-extrabold">3506 ₽</span>
-            </div>
-            <CheckoutItemDetails
-              title={
-                <div className="flex items-center">
-                  <Package size={18} className="mr-2 text-gray-300" />
-                  Стоимость товаров:
-                </div>
-              }
-              value="3000"
-            />
-            <CheckoutItemDetails
-              title={
-                <div className="flex items-center">
-                  <Percent size={18} className="mr-2 text-gray-300" />
-                  Налоги:
-                </div>
-              }
-              value="200"
-            />
-            <CheckoutItemDetails
-              title={
-                <div className="flex items-center">
-                  <Truck size={18} className="mr-2 text-gray-300" />
-                  Доставка:
-                </div>
-              }
-              value="306"
-            />
-            <Button type="submit" className="mt-6 h-14 w-full rounded-2xl text-base font-bold">
-              Перейти к оплате
-              <ArrowRight className="ml-2 w-5" />
-            </Button>
-          </CheckoutWhiteBlock>
+          <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
         </div>
       </div>
     </Container>

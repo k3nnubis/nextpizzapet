@@ -1,6 +1,6 @@
 "use client";
-import { CartItemProps } from "./cart-item-details/cart-item-details.types";
-import * as CartItemDetails from "./cart-item-details";
+import { CartItemProps } from "../cart-item-details/cart-item-details.types";
+import * as CartItemDetails from "../cart-item-details";
 import { Trash2Icon } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 
@@ -8,6 +8,7 @@ interface CartItemPropsLocal extends CartItemProps {
   onClickCountButton?: (type: "plus" | "minus") => void;
   onClickRemove?: () => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export function CheckoutItem({
