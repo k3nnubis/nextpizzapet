@@ -3,10 +3,10 @@ import React from "react";
 import { Container } from "./container";
 import Image from "next/image";
 import { Button } from "../ui";
-import { ArrowRight, ShoppingCart, User } from "lucide-react";
+import { User } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
-import { CartButton } from "./cart/cart-button";
+import { CartButton } from "./cart";
 
 interface Props {
   hasSearch?: boolean;

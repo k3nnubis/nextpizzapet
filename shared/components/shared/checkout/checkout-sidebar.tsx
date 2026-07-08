@@ -1,4 +1,3 @@
-import React from "react";
 import { CheckoutWhiteBlock } from "./checkout-white-block";
 import { CheckoutItemDetails } from "./checkout-item-details";
 import { ArrowRight, Package, Truck } from "lucide-react";
