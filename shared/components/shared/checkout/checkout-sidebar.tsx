@@ -1,6 +1,6 @@
 import { CheckoutWhiteBlock } from "./checkout-white-block";
 import { CheckoutItemDetails } from "./checkout-item-details";
-import { ArrowRight, Package, Truck } from "lucide-react";
+import { ArrowRight, LoaderCircle, Package, Truck } from "lucide-react";
 import { Button, Skeleton } from "../../ui";
 import { cn } from "@/shared/lib/utils";
 const DELIVERY_PRICE = 250;
@@ -46,9 +46,19 @@ export function CheckoutSidebar({ totalAmount, loading, className }: CheckoutSid
         }
         value={`${DELIVERY_PRICE} ₽`}
       />
-      <Button type="submit" className="mt-6 h-14 w-full rounded-2xl text-base font-bold">
-        Перейти к оплате
-        <ArrowRight className="ml-2 w-5" />
+      <Button
+        type="submit"
+        disabled={loading}
+        className={cn("mt-6 h-14 w-full rounded-2xl text-base font-bold", loading && "bg-gray-500")}
+      >
+        {loading ? (
+          <LoaderCircle className="ml-3 animate-spin" size={16} />
+        ) : (
+          <>
+            <span>Оформить заказ</span>
+            <ArrowRight className="ml-2 w-5" />
+          </>
+        )}
       </Button>
     </CheckoutWhiteBlock>
   );

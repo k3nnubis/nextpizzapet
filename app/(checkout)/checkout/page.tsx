@@ -28,7 +28,7 @@ export default function CheckoutPage() {
       lastName: "",
       phone: "",
       address: "",
-      comment: "",
+      order_comment: "",
     },
   });
 
@@ -51,8 +51,10 @@ export default function CheckoutPage() {
                 onClickCountButton={onClickCountButton}
                 onClickRemove={onClickRemove}
               />
-              <CheckoutPersonalForm />
-              <CheckoutAdressForm />
+
+              <CheckoutPersonalForm disabled={loading} />
+
+              <CheckoutAdressForm disabled={loading} />
             </div>
             {/* Правая часть */}
             <div className="w-[450px]">

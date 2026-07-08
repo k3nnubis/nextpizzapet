@@ -25,7 +25,7 @@ export function CheckoutCart({
     <CheckoutWhiteBlock title="1. Корзина">
       <div className="flex flex-col gap-5">
         {loading && items.length === 0
-          ? [...Array(3)].map((_, index) => <CheckoutItemSkeleton key={index} />)
+          ? [...Array(4)].map((_, index) => <CheckoutItemSkeleton key={index} />)
           : items.map((item) =>
               loadingItemIds.includes(item.id) ? (
                 <CheckoutItemSkeleton key={item.id} />
