@@ -11,10 +11,13 @@ import {
 } from "@/shared/components/shared";
 import { useCart, useCartItemActions } from "@/shared/hooks";
 import { checkoutFormSchema, CheckoutFormValues } from "@/shared/constants";
+import { createOrder } from "./actions";
+import toast from "react-hot-toast";
+import React from "react";
 
 export default function CheckoutPage() {
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart();
-
+  const [submitting, setSubmitting] = React.useState(false);
   const { loadingItemIds, onClickCountButton, onClickRemove } = useCartItemActions(
     updateItemQuantity,
     removeCartItem,
@@ -33,7 +36,22 @@ export default function CheckoutPage() {
   });
 
   const onSubmit = async (data: CheckoutFormValues) => {
-    console.log(data);
+    try {
+      setSubmitting(true);
+      const url = await createOrder(data);
+      toast.success("Заказ успешно создан! 🖇️ Переход на оплату...", {
+        icon: "✅",
+      });
+      if (url) {
+        window.location.href = url;
+      }
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+      toast.error("Не удалось создать заказ.", {
+        icon: "❌",
+      });
+    }
   };
 
   return (
@@ -58,7 +76,7 @@ export default function CheckoutPage() {
             </div>
             {/* Правая часть */}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading || submitting} />
             </div>
           </div>
         </form>

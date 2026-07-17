@@ -24,4 +24,5 @@ export * from "./modals";
 export * from "./cart";
 export * from "./checkout";
 export * from "./form-components";
+export * from "./email-templates";
 export { AppToaster } from "./app-toaster";
