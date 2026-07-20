@@ -20,6 +20,7 @@ export { IngredientCard } from "./ingredient-card";
 export { CountButton } from "./count-button";
 export { CountIconButton } from "./count-icon-button";
 export { ProductForm } from "./product-form";
+export { ProfileButton } from "./profile-button";
 export * from "./modals";
 export * from "./cart";
 export * from "./checkout";
