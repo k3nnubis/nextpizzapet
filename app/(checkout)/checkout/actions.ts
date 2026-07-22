@@ -5,9 +5,12 @@ import { createPayment, sendEmail } from "@/shared/lib";
 import { OrderStatus } from "@/src/generated/prisma/enums";
 import { OrderBlank } from "../../../shared/components/shared";
 import { cookies } from "next/headers";
+import { getUserSession } from "@/shared/lib/get-user-session";
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
+    const currentUser = await getUserSession();
+    const userId = Number(currentUser?.id);
     // Корзина гостя привязана к токену, который хранится в cookie.
     const cookieStore = cookies();
     const cartToken = (await cookieStore).get("cartToken")?.value;
@@ -29,7 +32,14 @@ export async function createOrder(data: CheckoutFormValues) {
         },
       },
       where: {
-        token: cartToken,
+        OR: [
+          {
+            userId,
+          },
+          {
+            token: cartToken,
+          },
+        ],
       },
     });
     if (!userCart) throw new Error("Cart not found");
@@ -38,6 +48,7 @@ export async function createOrder(data: CheckoutFormValues) {
     // Создаём заказ до очистки корзины, чтобы не потерять её состав.
     const order = await prisma.order.create({
       data: {
+        userId,
         token: cartToken,
         fullName: data.firstName + " " + data.lastName,
         email: data.email,

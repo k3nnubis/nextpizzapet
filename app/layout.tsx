@@ -1,6 +1,7 @@
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/shared/components/shared/providers";
+import { cn } from "@/shared/lib/utils";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -18,7 +19,7 @@ export default function BossRootLayout({
       <head>
         <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
       </head>
-      <body className={nunito.className}>
+      <body className={cn(nunito.className, "scrollbar")}>
         <Providers>{children}</Providers>
       </body>
     </html>

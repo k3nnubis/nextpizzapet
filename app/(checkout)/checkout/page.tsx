@@ -14,8 +14,11 @@ import { checkoutFormSchema, CheckoutFormValues } from "@/shared/constants";
 import { createOrder } from "./actions";
 import toast from "react-hot-toast";
 import React from "react";
+import { Api } from "@/shared/services/api-client";
+import { useSession } from "next-auth/react";
 
 export default function CheckoutPage() {
+  const { data: session } = useSession();
   const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart();
   const [submitting, setSubmitting] = React.useState(false);
   const { loadingItemIds, onClickCountButton, onClickRemove } = useCartItemActions(
@@ -34,7 +37,20 @@ export default function CheckoutPage() {
       order_comment: "",
     },
   });
+  React.useEffect(() => {
+    async function fetchUserInfo() {
+      const data = await Api.auth.getMe();
+      const [firstName, lastName] = data.fullName.split(" ");
 
+      form.setValue("firstName", firstName);
+      form.setValue("lastName", lastName);
+      form.setValue("email", data.email);
+    }
+
+    if (session) {
+      fetchUserInfo();
+    }
+  }, [session]);
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
       setSubmitting(true);

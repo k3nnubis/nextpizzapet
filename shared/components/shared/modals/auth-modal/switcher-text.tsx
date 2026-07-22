@@ -11,7 +11,7 @@ export function SwitcherText({ isLogin, children, onClick }: SwitcherTextProps) 
       <p className="text-xs text-gray-400">
         {isLogin ? "Еще не зарегистрированы?" : "Уже зарегистрированы?"}{" "}
         <button className="text-primary hover:opacity-50" onClick={onClick}>
-          {isLogin ? "Регистрация" : "Вход"}
+          {isLogin ? "Регистрация" : "Авторизация"}
         </button>
       </p>
     </div>

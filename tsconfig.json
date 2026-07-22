@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "app/(root)/@modal/default.js"
+    "app/(root)/@modal/default.js",
+    "@types/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

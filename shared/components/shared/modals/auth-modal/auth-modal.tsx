@@ -1,7 +1,7 @@
 "use client";
 import { Button, Dialog, DialogContent } from "@/shared/components/ui";
 import { signIn } from "next-auth/react";
-import { SignIn } from "./forms";
+import { SignIn, SignUp } from "./forms";
 import { useState } from "react";
 import { SwitcherText } from "./switcher-text";
 import { boolean } from "zod";
@@ -29,7 +29,7 @@ export function AuthModal({ onClose, open }: AuthModalProps) {
           </SwitcherText>
         ) : (
           <SwitcherText isLogin={false} onClick={onSwitchType}>
-            <h2>Регистрация</h2>
+            <SignUp onClose={handleClose} />
           </SwitcherText>
         )}
 
@@ -56,6 +56,8 @@ export function AuthModal({ onClose, open }: AuthModalProps) {
           </Button>
 
           <Button
+            disabled={true}
+            
             variant={"secondary"}
             onClick={() =>
               signIn("google", {
