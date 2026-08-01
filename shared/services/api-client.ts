@@ -3,6 +3,7 @@ import * as ingredients from "./ingredients";
 import * as cart from "./cart";
 import * as categories from "./categories";
 import * as auth from "./auth";
+import * as dashUsers from "./dashboard/dashboard-users";
 
 export const Api = {
   products,
@@ -10,4 +11,5 @@ export const Api = {
   cart,
   categories,
   auth,
+  dashUsers,
 };
