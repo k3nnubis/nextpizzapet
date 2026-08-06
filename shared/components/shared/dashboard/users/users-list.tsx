@@ -10,7 +10,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shared/components/ui/table";
 import { UserRoleLabel } from "@/shared/constants/dashboard/user-roles";
 import { useUserModalStore } from "@/shared/store";
-import { User } from "@prisma/client";
+import type { User } from "@/src/generated/prisma/client";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

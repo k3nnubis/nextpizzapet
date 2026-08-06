@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/shared/lib/utils";
-import React from "react";
+import React, { Suspense } from "react";
 import { Container } from "./container";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +17,10 @@ interface Props {
   className?: string;
 }
 
-export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, className }) => {
+const SearchParamsToast = () => {
   const router = useRouter();
-  const [openAuthModal, setOpenAuthModal] = React.useState(false);
   const searchParams = useSearchParams();
+
   React.useEffect(() => {
     let toastMessage = "";
     if (searchParams.has("paid")) {
@@ -35,10 +35,19 @@ export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, clas
         toast.success(toastMessage, { duration: 3000 });
       }, 1000);
     }
-  }, []);
+  }, [router, searchParams]);
+
+  return null;
+};
+
+export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, className }) => {
+  const [openAuthModal, setOpenAuthModal] = React.useState(false);
 
   return (
     <header className={cn("border-b", className)}>
+      <Suspense fallback={null}>
+        <SearchParamsToast />
+      </Suspense>
       <Container className="flex items-center justify-between py-8">
         {/* Левая часть */}
         <Link href="/">

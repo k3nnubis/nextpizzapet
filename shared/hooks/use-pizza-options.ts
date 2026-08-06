@@ -1,6 +1,6 @@
 import { mapPizzaType, type PizzaSize, type PizzaType, pizzaTypes } from "@/shared/constants/pizza";
 import { calcAvailablePizzaSizes } from "@/shared/lib";
-import { ProductItem } from "@/src/generated/prisma/client";
+import type { ProductItem } from "@/src/generated/prisma/client";
 import React from "react";
 import { useSet } from "react-use";
 

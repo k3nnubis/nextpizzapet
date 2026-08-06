@@ -72,5 +72,14 @@
   "overrides": {
     "@hono/node-server": "^1.19.13",
     "postcss": "^8.5.10"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.9.1": true,
+    "@tailwindcss/oxide@4.1.11": true,
+    "bcrypt@6.0.0": true,
+    "core-js-pure@3.49.0": true,
+    "esbuild@0.28.1": true,
+    "prisma@7.9.1": true,
+    "unrs-resolver@1.11.1": true
   }
 }

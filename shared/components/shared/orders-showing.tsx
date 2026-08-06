@@ -1,7 +1,7 @@
-import { Order } from "@prisma/client";
 import { Container } from "./container";
 import { Title } from "./title";
 import { OrderItem } from "./order-item";
+import type { Order } from "@/src/generated/prisma/client";
 
 interface OrdersShowingProps {
   orders: Order[];

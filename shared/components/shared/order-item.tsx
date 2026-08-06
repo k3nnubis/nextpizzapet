@@ -2,12 +2,12 @@
 
 import { cn } from "@/shared/lib/utils";
 import { CartItemDTO } from "@/shared/services/dto/cart.dto";
-import { OrderStatus as IOrderStatus } from "@prisma/client";
 import React from "react";
 import { Title } from "./title";
 import { ChevronDown } from "lucide-react";
 import { OrderCartItem } from "./order-cart-item";
 import { OrderStatus } from "./order-status";
+import { OrderStatus as IOrderStatus } from "@/src/generated/prisma/enums";
 
 interface Props {
   id: number;

@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import type { User } from "@/src/generated/prisma/client";
 
 interface UserRowCardProps {
   data: User;

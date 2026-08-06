@@ -1,5 +1,5 @@
 import React from "react";
-import { OrderStatus as IOrderStatus } from "@prisma/client";
+import { OrderStatus as IOrderStatus } from "@/src/generated/prisma/enums";
 import { Badge } from "../ui/badge";
 import { cn } from "@/shared/lib/utils";
 
