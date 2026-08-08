@@ -1,12 +1,17 @@
 import { z } from "zod";
-const optionalPassword = z.string().optional();
 
-export const editUserFormSchema = z
+export const editUserFormSchema = z.object({
+  fullName: z.string().trim().min(2, "Введите имя и фамилию"),
+  email: z.email("Введите корректный адрес e-mail"),
+  role: z.enum(["USER", "ADMIN"]),
+  status: z.enum(["ACTIVE", "BLOCKED"]),
+  verified: z.boolean(),
+});
+
+export const resetPasswordFormSchema = z
   .object({
-    fullName: z.string().min(2, "Введите имя и фамилию"),
-    email: z.email("Введите корректный адрес e-mail"),
-    password: optionalPassword,
-    confirmPassword: optionalPassword,
+    password: z.string().min(8, "Минимум 8 символов"),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Пароли не совпадают",
@@ -14,3 +19,4 @@ export const editUserFormSchema = z
   });
 
 export type EditUserFormValues = z.infer<typeof editUserFormSchema>;
+export type ResetPasswordFormValues = z.infer<typeof resetPasswordFormSchema>;

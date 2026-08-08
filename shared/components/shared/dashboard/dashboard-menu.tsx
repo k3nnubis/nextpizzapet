@@ -74,13 +74,13 @@ export const DashboardMenu: React.FC<Props> = ({ className }) => {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen max-w-[200px] border-r bg-white">
-      <nav className={cn("grid items-start gap-2 px-4 py-5 text-sm font-medium", className)}>
+    <aside className="w-full border-b bg-white md:min-h-screen md:w-[200px] md:shrink-0 md:border-r md:border-b-0">
+      <nav className={cn("flex gap-2 overflow-x-auto px-3 py-3 text-sm font-medium md:grid md:items-start md:overflow-visible md:px-4 md:py-5", className)}>
         {items.map((item) => (
           <Link
             key={item.text}
             className={cn(
-              "hover:text-primary hover:bg-accent flex h-[35px] gap-3 rounded-[8px] px-3 py-2 text-gray-900 transition-all",
+              "hover:text-primary hover:bg-accent flex h-[35px] shrink-0 gap-3 rounded-[8px] px-3 py-2 text-gray-900 transition-all",
               {
                 "bg-gray-200": isSubPath(item.href, pathname),
               },
@@ -92,6 +92,6 @@ export const DashboardMenu: React.FC<Props> = ({ className }) => {
           </Link>
         ))}
       </nav>
-    </div>
+    </aside>
   );
 };

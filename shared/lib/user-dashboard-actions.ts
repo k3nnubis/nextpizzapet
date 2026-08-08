@@ -1,12 +1,7 @@
 "use server";
 
-import { prisma } from "@/prisma/prisma-client";
-import { revalidatePath } from "next/cache";
+import { deleteDashboardUser } from "@/app/(dashboard)/dashboard/actions";
 
 export async function deleteUser(id: number) {
-  await prisma.user.delete({
-    where: { id },
-  });
-
-  revalidatePath("/dashboard/users");
+  return deleteDashboardUser(id);
 }

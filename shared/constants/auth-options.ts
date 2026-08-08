@@ -1,6 +1,5 @@
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/prisma/prisma-client";
 import { compare, hashSync } from "bcrypt";
@@ -17,6 +16,8 @@ export const authOptions: AuthOptions = {
           email: profile.email,
           image: profile.avatar_url,
           role: "USER" as UserRole,
+          status: "ACTIVE",
+          sessionVersion: 0,
         };
       },
     }),
@@ -36,6 +37,8 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
+        if (findUser.status === "BLOCKED") return null;
+
         const isPasswordValid = await compare(credentials.password, findUser.password);
         if (!isPasswordValid) {
           return null;
@@ -43,11 +46,14 @@ export const authOptions: AuthOptions = {
         if (!findUser.verified) {
           return null;
         }
+        await prisma.user.update({ where: { id: findUser.id }, data: { lastLoginAt: new Date() } });
         return {
           id: findUser.id,
           email: findUser.email,
           name: findUser.fullName,
           role: findUser.role,
+          status: findUser.status,
+          sessionVersion: findUser.sessionVersion,
         };
       },
     }),
@@ -82,6 +88,7 @@ export const authOptions: AuthOptions = {
         });
 
         if (findUser) {
+          if (findUser.status === "BLOCKED") return false;
           await prisma.user.update({
             where: {
               id: findUser.id,
@@ -89,6 +96,7 @@ export const authOptions: AuthOptions = {
             data: {
               provider: account?.provider,
               providerId: account?.providerAccountId,
+              lastLoginAt: new Date(),
             },
           });
           return true;
@@ -101,6 +109,7 @@ export const authOptions: AuthOptions = {
             verified: new Date(),
             provider: account?.provider,
             providerId: account?.providerAccountId,
+            lastLoginAt: new Date(),
           },
         });
 
@@ -113,16 +122,22 @@ export const authOptions: AuthOptions = {
     async jwt({ token }) {
       if (!token.email) return token;
 
-      const user = await prisma.user.findUnique({
+      const dbUser = await prisma.user.findUnique({
         where: {
           email: token.email,
         },
       });
-      if (user) {
-        token.id = String(user.id);
-        token.role = user.role;
-        token.fullName = user.fullName;
-        token.email = user.email;
+      if (dbUser) {
+        if (token.sessionVersion !== undefined && token.sessionVersion !== dbUser.sessionVersion) {
+          token.invalidated = true;
+        }
+        token.id = String(dbUser.id);
+        token.role = dbUser.role;
+        token.fullName = dbUser.fullName;
+        token.email = dbUser.email;
+        token.sessionVersion = dbUser.sessionVersion;
+        token.status = dbUser.status;
+        token.invalidated = token.invalidated || dbUser.status === "BLOCKED";
       }
       return token;
     },
@@ -130,6 +145,8 @@ export const authOptions: AuthOptions = {
       if (session?.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.status = token.status;
+        session.user.invalidated = Boolean(token.invalidated);
       }
       return session;
     },

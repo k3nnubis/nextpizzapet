@@ -27,6 +27,7 @@ export default async function CheckoutLayout({
     where: {
       id: Number(session?.id),
       role: "ADMIN",
+      status: "ACTIVE",
     },
   });
   if (!user) return redirect("/not-auth");
@@ -34,7 +35,7 @@ export default async function CheckoutLayout({
     <main className="min-h-screen bg-[#f3faff]">
       <DashboardContainer>
         <DashboardHeader />
-        <div className="flex">
+        <div className="flex min-w-0 flex-col md:flex-row">
           <DashboardMenu />
           {children}
         </div>
