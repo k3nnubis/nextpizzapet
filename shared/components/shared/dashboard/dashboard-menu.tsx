@@ -1,7 +1,16 @@
 "use client";
 
 import React from "react";
-import { Folder, House, LayoutDashboard, Leaf, Package, ShoppingCart, Users } from "lucide-react";
+import {
+  Folder,
+  House,
+  LayoutDashboard,
+  Leaf,
+  Package,
+  ShoppingCart,
+  Users,
+  NotebookText
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/shared/lib/utils";
@@ -53,6 +62,11 @@ const items = [
     text: "Заказы",
     icon: <ShoppingCart size={16} />,
     href: "/dashboard/orders",
+  },
+  {
+    text: "Документы",
+    icon: <NotebookText size={16} />,
+    href: "/dashboard/documents",
   },
 ];
 
