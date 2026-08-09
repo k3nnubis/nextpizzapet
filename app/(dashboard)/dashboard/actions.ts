@@ -19,6 +19,15 @@ type UpdateUserBody = {
   verified: boolean;
 };
 
+export type CreateUserBody = {
+  fullName: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  status: UserStatus;
+  verified: boolean;
+};
+
 async function requireAdmin() {
   const session = await getUserSession();
   if (!session) throw new Error("Необходима авторизация администратора.");
@@ -45,6 +54,44 @@ async function writeAuditLog(
   details?: Record<string, string | number | boolean | null>,
 ) {
   await prisma.adminAuditLog.create({ data: { actorId, targetUserId, action, details } });
+}
+
+export async function createDashboardUser(body: CreateUserBody) {
+  const admin = await requireAdmin();
+  const fullName = body.fullName.trim();
+  const email = body.email.trim().toLowerCase();
+
+  if (fullName.length < 2 || fullName.length > 100) {
+    throw new Error("Имя должно содержать от 2 до 100 символов.");
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Введите корректный e-mail.");
+  if (body.password.length < 8) throw new Error("Пароль должен содержать минимум 8 символов.");
+  if (body.role !== "USER" && body.role !== "ADMIN") throw new Error("Некорректная роль.");
+  if (body.status !== "ACTIVE" && body.status !== "BLOCKED") throw new Error("Некорректный статус.");
+
+  const emailOwner = await prisma.user.findUnique({ where: { email }, select: { id: true } });
+  if (emailOwner) throw new Error("Этот e-mail уже используется.");
+
+  const user = await prisma.user.create({
+    data: {
+      fullName,
+      email,
+      password: hashSync(body.password, 10),
+      role: body.role,
+      status: body.status,
+      verified: body.verified ? new Date() : null,
+    },
+    select: { id: true, role: true, status: true },
+  });
+
+  await writeAuditLog(admin.id, user.id, "USER_CREATED", {
+    role: user.role,
+    status: user.status,
+    verified: body.verified,
+  });
+  revalidatePath("/dashboard/users");
+
+  return { id: user.id };
 }
 
 export async function editUserInfo(body: UpdateUserBody, userId: number) {

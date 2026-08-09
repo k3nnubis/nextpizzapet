@@ -18,5 +18,21 @@ export const resetPasswordFormSchema = z
     path: ["confirmPassword"],
   });
 
+export const createUserFormSchema = z
+  .object({
+    fullName: z.string().trim().min(2, "Введите имя и фамилию").max(100, "Максимум 100 символов"),
+    email: z.email("Введите корректный адрес e-mail"),
+    password: z.string().min(8, "Минимум 8 символов"),
+    confirmPassword: z.string(),
+    role: z.enum(["USER", "ADMIN"]),
+    status: z.enum(["ACTIVE", "BLOCKED"]),
+    verified: z.boolean(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Пароли не совпадают",
+    path: ["confirmPassword"],
+  });
+
 export type EditUserFormValues = z.infer<typeof editUserFormSchema>;
 export type ResetPasswordFormValues = z.infer<typeof resetPasswordFormSchema>;
+export type CreateUserFormValues = z.infer<typeof createUserFormSchema>;

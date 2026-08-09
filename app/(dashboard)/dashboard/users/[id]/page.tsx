@@ -12,6 +12,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const auditLabels: Record<string, string> = {
+  USER_CREATED: "Пользователь создан",
   USER_UPDATED: "Изменены данные профиля",
   PASSWORD_RESET: "Изменён пароль",
   PASSWORD_RESET_LINK_SENT: "Отправлена ссылка для сброса пароля",
@@ -154,7 +155,8 @@ export default async function EditUserPage({ params }: { params: Promise<{ id: s
                 <div key={log.id} className="flex flex-col justify-between gap-1 py-3 text-sm sm:flex-row">
                   <span className="font-semibold">{auditLabels[log.action] ?? log.action}</span>
                   <span className="text-muted-foreground">
-                    Администратор #{log.actorId} · {log.createdAt.toLocaleString("ru-RU")}
+                    Администратор #{auditLabels[log.actorId] ?? log.actorId} ·{" "}
+                    {log.createdAt.toLocaleString("ru-RU")}
                   </span>
                 </div>
               ))}
