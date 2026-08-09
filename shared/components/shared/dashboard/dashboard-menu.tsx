@@ -9,7 +9,7 @@ import {
   Package,
   ShoppingCart,
   Users,
-  NotebookText
+  NotebookText,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -49,11 +49,6 @@ const items = [
     href: "/dashboard/products",
   },
   {
-    text: "Вариации",
-    icon: <LayoutDashboard size={16} />,
-    href: "/dashboard/product-items",
-  },
-  {
     text: "Ингредиенты",
     icon: <Leaf size={16} />,
     href: "/dashboard/ingredients",
@@ -75,7 +70,12 @@ export const DashboardMenu: React.FC<Props> = ({ className }) => {
 
   return (
     <aside className="w-full border-b bg-white md:min-h-screen md:w-[200px] md:shrink-0 md:border-r md:border-b-0">
-      <nav className={cn("flex gap-2 overflow-x-auto px-3 py-3 text-sm font-medium md:grid md:items-start md:overflow-visible md:px-4 md:py-5", className)}>
+      <nav
+        className={cn(
+          "flex gap-2 overflow-x-auto px-3 py-3 text-sm font-medium md:grid md:items-start md:overflow-visible md:px-4 md:py-5",
+          className,
+        )}
+      >
         {items.map((item) => (
           <Link
             key={item.text}
