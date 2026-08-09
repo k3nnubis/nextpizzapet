@@ -73,7 +73,7 @@ export async function editUserInfo(body: UpdateUserBody, userId: number) {
       email: body.email.trim().toLowerCase(),
       role: body.role,
       status: body.status,
-      verified: body.verified && !changedEmail ? user.verified ?? new Date() : null,
+      verified: body.verified && !changedEmail ? (user.verified ?? new Date()) : null,
       ...(user.status !== body.status || user.role !== body.role || changedEmail
         ? { sessionVersion: { increment: 1 } }
         : {}),
@@ -119,7 +119,11 @@ export async function sendUserPasswordResetLink(userId: number) {
   ]);
   const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
   const resetUrl = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}`;
-  await sendEmail(user.email, "Ссылка для сброса пароля", PasswordResetTemplate({ fullName: user.fullName, resetUrl }));
+  await sendEmail(
+    user.email,
+    "Ссылка для сброса пароля",
+    PasswordResetTemplate({ fullName: user.fullName, resetUrl }),
+  );
   await writeAuditLog(admin.id, userId, "PASSWORD_RESET_LINK_SENT");
 }
 
