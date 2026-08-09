@@ -1,5 +1,6 @@
 import { prisma } from "@/prisma/prisma-client";
 import {
+  CategoryDangerZone,
   CategoryNameForm,
   CategoryProductsManager,
   type DashboardCategoryProductDetails,
@@ -120,6 +121,11 @@ export default async function DashboardCategoryPage({ params }: CategoryPageProp
 
         <CategoryNameForm categoryId={category.id} initialName={category.name} />
         <CategoryProductsManager categoryId={category.id} products={products} />
+        <CategoryDangerZone
+          categoryId={category.id}
+          categoryName={category.name}
+          productsCount={products.length}
+        />
       </div>
     </div>
   );
