@@ -57,6 +57,7 @@ async function up() {
       name: "Пеперонни фреш",
       imageUrl: "/products-unique/peperonni-fresh.avif",
       categoryId: 1,
+      type: "PIZZA",
       ingredients: {
         connect: ingredients.slice(0, 5),
       },
@@ -67,6 +68,7 @@ async function up() {
       name: "Сырная",
       imageUrl: "/products-unique/syrnaya.avif",
       categoryId: 1,
+      type: "PIZZA",
       ingredients: {
         connect: ingredients.slice(3, 10),
       },
@@ -77,6 +79,7 @@ async function up() {
       name: "Диабло",
       imageUrl: "/products-unique/diablo.avif",
       categoryId: 1,
+      type: "PIZZA",
       ingredients: {
         connect: ingredients.slice(2, 11),
       },

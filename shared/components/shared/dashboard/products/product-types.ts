@@ -3,6 +3,7 @@ export interface DashboardProduct {
   name: string;
   imageUrl: string;
   status: "ACTIVE" | "BLOCKED";
+  type: "SIMPLE" | "PIZZA";
   category: {
     id: number;
     name: string;

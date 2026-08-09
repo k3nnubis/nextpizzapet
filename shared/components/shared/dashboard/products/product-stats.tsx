@@ -15,7 +15,9 @@ export function ProductStats({ products }: ProductStatsProps) {
     },
     {
       label: "Доступны к заказу",
-      value: products.filter((product) => product.status === "ACTIVE" && product.category).length,
+      value: products.filter(
+        (product) => product.status === "ACTIVE" && product.category && product.variantsCount > 0,
+      ).length,
       icon: CircleCheck,
       iconClassName: "bg-emerald-100 text-emerald-700",
     },

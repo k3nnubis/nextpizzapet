@@ -46,6 +46,7 @@ model Product {
   name     String
   imageUrl String
   status   ProductStatus @default(ACTIVE)
+  type     ProductType   @default(SIMPLE)
 
   ingredients Ingredient[]
   variants    ProductItem[]
@@ -67,6 +68,8 @@ model ProductItem {
 
   product   Product @relation(fields: [productId], references: [id])
   productId Int
+
+  @@unique([productId, pizzaType, size])
 }
 
 model Ingredient {
@@ -200,4 +203,9 @@ enum UserStatus {
 enum ProductStatus {
   ACTIVE
   BLOCKED
+}
+
+enum ProductType {
+  SIMPLE
+  PIZZA
 }

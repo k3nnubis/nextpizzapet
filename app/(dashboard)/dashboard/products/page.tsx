@@ -15,6 +15,7 @@ export default async function DashboardProductsPage() {
         name: true,
         imageUrl: true,
         status: true,
+        type: true,
         updatedAt: true,
         category: {
           select: { id: true, name: true },

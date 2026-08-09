@@ -8,8 +8,6 @@ import { useIntersection } from "react-use";
 import { useCategoryStore } from "@/shared/store/category";
 import { ProductWithRelations } from "@/@types/prisma";
 
-
-
 interface Props {
   title: string;
   items: ProductWithRelations[];
@@ -53,7 +51,7 @@ export const ProductsGroupList: React.FC<Props> = ({
               product.variants.length > 0 ? Math.min(...product.variants.map((variant) => variant.price)) : 0
             }
             imageUrl={product.imageUrl}
-            isSingleProduct={product.variants.some((variant) => Boolean(variant.pizzaType))}
+            isSingleProduct={product.type === "PIZZA"}
             queryString={queryString}
             ingredients={product.ingredients}
           />
@@ -62,5 +60,3 @@ export const ProductsGroupList: React.FC<Props> = ({
     </div>
   );
 };
-
-
