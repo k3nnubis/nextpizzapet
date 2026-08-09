@@ -16,6 +16,13 @@ export interface UpdateProductInfoInput {
   type: ProductType;
 }
 
+export interface CreateProductInput {
+  name: string;
+  imageUrl: string;
+  categoryId: number | null;
+  type: ProductType;
+}
+
 export interface PizzaVariantInput {
   price: number;
   size: 20 | 30 | 40;
@@ -36,6 +43,20 @@ function validatePrice(price: number) {
   if (!Number.isInteger(price) || price < 1 || price > 1_000_000) {
     throw new Error("Цена должна быть целым числом от 1 до 1 000 000 ₽.");
   }
+}
+
+function normalizeProductIdentity(name: string, imageUrl: string) {
+  const normalizedName = name.trim();
+  const normalizedImageUrl = imageUrl.trim();
+
+  if (normalizedName.length < 2 || normalizedName.length > 120) {
+    throw new Error("Название должно содержать от 2 до 120 символов.");
+  }
+  if (!normalizedImageUrl.startsWith("/")) {
+    throw new Error("Укажите путь к изображению из папки public, начиная с «/».");
+  }
+
+  return { name: normalizedName, imageUrl: normalizedImageUrl };
 }
 
 function revalidateProduct(productId: number, categoryIds: Array<number | null | undefined> = []) {
@@ -70,15 +91,37 @@ async function removeProductFromCarts(productId: number) {
   await recalculateCarts(items.map((item) => item.cartId));
 }
 
+export async function createProduct(input: CreateProductInput) {
+  await requireAdmin();
+
+  const identity = normalizeProductIdentity(input.name, input.imageUrl);
+
+  if (input.categoryId !== null) {
+    const categoryExists = await prisma.category.count({ where: { id: input.categoryId } });
+    if (!categoryExists) throw new Error("Выбранная категория не найдена.");
+  }
+  if (input.type !== "SIMPLE" && input.type !== "PIZZA") {
+    throw new Error("Некорректный тип товара.");
+  }
+
+  const product = await prisma.product.create({
+    data: {
+      ...identity,
+      type: input.type,
+      categoryId: input.categoryId,
+      status: "BLOCKED",
+    },
+    select: { id: true },
+  });
+
+  revalidateProduct(product.id, [input.categoryId]);
+  return product;
+}
+
 export async function updateProductInfo(productId: number, input: UpdateProductInfoInput) {
   await requireAdmin();
 
-  const name = input.name.trim();
-  const imageUrl = input.imageUrl.trim();
-  if (name.length < 2 || name.length > 120)
-    throw new Error("Название должно содержать от 2 до 120 символов.");
-  if (!imageUrl.startsWith("/"))
-    throw new Error("Укажите путь к изображению из папки public, начиная с «/».");
+  const identity = normalizeProductIdentity(input.name, input.imageUrl);
 
   const product = await prisma.product.findUnique({
     where: { id: productId },
@@ -103,8 +146,7 @@ export async function updateProductInfo(productId: number, input: UpdateProductI
   await prisma.product.update({
     where: { id: productId },
     data: {
-      name,
-      imageUrl,
+      ...identity,
       categoryId: input.categoryId,
       status: input.categoryId === null ? "BLOCKED" : input.status,
       type: input.type,
