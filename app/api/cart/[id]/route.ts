@@ -11,14 +11,30 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       return NextResponse.json({ message: "Корзина не найдена" }, { status: 404 });
     }
 
-    const cartItem = await prisma.cartItem.findUnique({
+    const cartItem = await prisma.cartItem.findFirst({
       where: {
         id: Number(id),
+        cart: { token },
+      },
+      select: {
+        id: true,
+        productItem: {
+          select: {
+            product: { select: { status: true, categoryId: true } },
+          },
+        },
       },
     });
 
     if (!cartItem) {
       return NextResponse.json({ message: "Товар не найден" }, { status: 404 });
+    }
+
+    if (
+      cartItem.productItem.product.status !== "ACTIVE" ||
+      cartItem.productItem.product.categoryId === null
+    ) {
+      return NextResponse.json({ message: "Этот товар сейчас недоступен для заказа" }, { status: 409 });
     }
 
     // /cart/3
@@ -51,9 +67,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       return NextResponse.json({ message: "Корзина не найдена" }, { status: 404 });
     }
 
-    const cartItem = await prisma.cartItem.findUnique({
+    const cartItem = await prisma.cartItem.findFirst({
       where: {
         id: Number(id),
+        cart: { token },
       },
     });
 
@@ -66,7 +83,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
         id: Number(id),
       },
     });
-    
+
     const updatedUserCart = await updateCartTotalAmount(token);
 
     return NextResponse.json(updatedUserCart);

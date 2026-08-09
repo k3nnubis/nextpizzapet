@@ -45,6 +45,11 @@ export async function createOrder(data: CheckoutFormValues) {
     if (!userCart) throw new Error("Cart not found");
     if (userCart?.totalAmount === 0) throw new Error("Cart is empty");
 
+    const hasUnavailableProducts = userCart.items.some(
+      (item) => item.productItem.product.status !== "ACTIVE" || item.productItem.product.categoryId === null,
+    );
+    if (hasUnavailableProducts) throw new Error("Cart contains unavailable products");
+
     // Создаём заказ до очистки корзины, чтобы не потерять её состав.
     const order = await prisma.order.create({
       data: {

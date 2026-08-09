@@ -29,6 +29,7 @@ export const findProducts = async (params: GetSearchParams) => {
           id: "desc",
         },
         where: {
+          status: "ACTIVE",
           ingredients: ingredientsIdArr
             ? {
                 some: {
