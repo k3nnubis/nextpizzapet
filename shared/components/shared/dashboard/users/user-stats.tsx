@@ -11,7 +11,7 @@ export function UserStats({ users }: UserStatsProps) {
       label: "Всего пользователей",
       value: users.length,
       icon: UsersRound,
-      iconClassName: "bg-orange-100 text-orange-700",
+      iconClassName: "bg-sky-100 text-sky-700",
     },
     {
       label: "Активные",

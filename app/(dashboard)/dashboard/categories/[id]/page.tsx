@@ -85,13 +85,13 @@ export default async function DashboardCategoryPage({ params }: CategoryPageProp
         <header>
           <Link
             href="/dashboard/categories"
-            className="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 text-sm font-bold transition-colors"
+            className="text-muted-foreground inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:text-violet-700"
           >
             <ArrowLeft className="size-4" /> Все категории
           </Link>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-extrabold tracking-[0.18em] text-orange-600 uppercase">
+              <p className="text-xs font-extrabold tracking-[0.18em] text-violet-600 uppercase">
                 Категория #{category.id}
               </p>
               <h1 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">{category.name}</h1>

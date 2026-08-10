@@ -53,7 +53,7 @@ export function CreateCategoryDialog() {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="relative z-10 bg-orange-500 text-white shadow-lg shadow-orange-950/20 hover:bg-orange-600"
+          className="relative z-10 bg-violet-500 text-white shadow-lg shadow-violet-950/20 hover:bg-violet-600"
         >
           <Plus /> Новая категория
         </Button>
@@ -62,7 +62,7 @@ export function CreateCategoryDialog() {
       <DialogContent>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-700">
+            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-violet-100 text-violet-700">
               <FolderPlus className="size-5" />
             </div>
             <DialogTitle>Создание категории</DialogTitle>

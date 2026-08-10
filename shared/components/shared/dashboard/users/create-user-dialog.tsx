@@ -79,7 +79,7 @@ export function CreateUserDialog() {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="relative z-10 bg-orange-500 text-white shadow-lg shadow-orange-950/20 hover:bg-orange-600"
+          className="relative z-10 bg-sky-500 text-white shadow-lg shadow-sky-950/20 hover:bg-sky-600"
         >
           <Plus /> Новый пользователь
         </Button>
@@ -88,7 +88,7 @@ export function CreateUserDialog() {
       <DialogContent className="sm:max-w-2xl">
         <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
           <DialogHeader>
-            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-700">
+            <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
               <UserPlus className="size-5" />
             </div>
             <DialogTitle>Создание пользователя</DialogTitle>

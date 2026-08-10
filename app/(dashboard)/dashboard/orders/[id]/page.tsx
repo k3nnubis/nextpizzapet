@@ -32,18 +32,20 @@ export default async function DashboardOrderPage({ params }: { params: Promise<{
       <div className="mx-auto max-w-5xl space-y-6">
         <Link
           href={order.userId ? `/dashboard/users/${order.userId}` : "/dashboard/users"}
-          className="text-muted-foreground hover:text-primary inline-flex items-center gap-2 text-sm font-semibold"
+          className="text-muted-foreground inline-flex items-center gap-2 text-sm font-semibold hover:text-rose-700"
         >
           <ArrowLeft className="size-4" /> Назад к пользователю
         </Link>
-        <header className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border bg-white p-5 shadow-sm">
-          <div>
+        <header className="relative flex flex-wrap items-center justify-between gap-3 overflow-hidden rounded-2xl bg-gray-950 p-5 text-white shadow-lg">
+          <div className="absolute -top-20 -right-10 size-48 rounded-full bg-rose-500/30 blur-3xl" />
+          <div className="relative">
             <h1 className="text-3xl font-extrabold">Заказ #{order.id}</h1>
-            <p className="text-muted-foreground mt-1 text-sm">
-              Создан {order.createdAt.toLocaleString("ru-RU")}
-            </p>
+            <p className="mt-1 text-sm text-gray-300">Создан {order.createdAt.toLocaleString("ru-RU")}</p>
           </div>
-          <Badge variant="outline" className="text-sm">
+          <Badge
+            variant="outline"
+            className="relative border-rose-300/30 bg-rose-400/15 text-sm text-rose-100"
+          >
             {statusLabel[order.status]}
           </Badge>
         </header>

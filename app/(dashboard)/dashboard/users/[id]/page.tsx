@@ -60,13 +60,13 @@ export default async function EditUserPage({ params }: { params: Promise<{ id: s
       <div className="mx-auto max-w-[1440px] space-y-6">
         <Link
           href="/dashboard/users"
-          className="text-muted-foreground hover:text-primary inline-flex items-center gap-2 text-sm font-semibold"
+          className="text-muted-foreground inline-flex items-center gap-2 text-sm font-semibold hover:text-sky-700"
         >
           <ArrowLeft className="size-4" /> К пользователям
         </Link>
 
-        <header className="flex flex-col gap-4 rounded-2xl border bg-white p-5 shadow-sm sm:flex-row sm:items-center">
-          <div className="bg-primary/10 text-primary flex size-16 shrink-0 items-center justify-center rounded-full text-xl font-extrabold">
+        <header className="flex flex-col gap-4 rounded-2xl border border-sky-100 bg-gradient-to-r from-sky-50/80 to-white p-5 shadow-sm sm:flex-row sm:items-center">
+          <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-sky-100 text-xl font-extrabold text-sky-700">
             {initials || "?"}
           </div>
           <div className="min-w-0 flex-1">

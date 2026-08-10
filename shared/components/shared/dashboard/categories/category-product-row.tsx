@@ -71,7 +71,7 @@ export function CategoryProductRow({ categoryId, product }: CategoryProductRowPr
   return (
     <>
       <article className="flex flex-col gap-4 p-4 transition-colors hover:bg-gray-50/70 sm:flex-row sm:items-center">
-        <div className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-orange-50 sm:size-20">
+        <div className="relative size-24 shrink-0 overflow-hidden rounded-2xl bg-violet-50 sm:size-20">
           <Image src={product.imageUrl} alt={product.name} fill sizes="96px" className="object-contain p-2" />
         </div>
 

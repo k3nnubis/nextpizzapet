@@ -22,20 +22,20 @@ export function CategoryCard({ category }: CategoryCardProps) {
   const categoryHref = `/dashboard/categories/${category.id}`;
 
   return (
-    <article className="group relative flex min-h-80 flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-100/60">
+    <article className="group relative flex min-h-80 flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-violet-200 hover:shadow-xl hover:shadow-violet-100/60">
       <Link
         href={categoryHref}
         className="absolute inset-0 z-10"
         aria-label={`Открыть категорию «${category.name}»`}
       />
 
-      <div className="relative h-40 overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50">
+      <div className="relative h-40 overflow-hidden bg-gradient-to-br from-violet-50 via-fuchsia-50 to-sky-50">
         {category.products.length ? (
           <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-px bg-white/80">
             {category.products.map((product, index) => (
               <div
                 key={product.id}
-                className={`relative overflow-hidden bg-orange-50 ${
+                className={`relative overflow-hidden bg-violet-50 ${
                   category.products.length === 1
                     ? "col-span-3 row-span-2"
                     : index === 0
@@ -57,7 +57,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="flex size-16 items-center justify-center rounded-2xl bg-white/80 text-orange-300 shadow-sm">
+            <span className="flex size-16 items-center justify-center rounded-2xl bg-white/80 text-violet-300 shadow-sm">
               <ImageIcon className="size-7" />
             </span>
           </div>
@@ -72,7 +72,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h2 className="truncate text-xl font-extrabold transition-colors group-hover:text-orange-600">
+            <h2 className="truncate text-xl font-extrabold transition-colors group-hover:text-violet-600">
               {category.name}
             </h2>
             <p className="text-muted-foreground mt-1 flex items-center gap-1.5 text-sm">
@@ -80,7 +80,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
               {category.productsCount.toLocaleString("ru-RU")} {productWord(category.productsCount)}
             </p>
           </div>
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all group-hover:bg-orange-500 group-hover:text-white">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all group-hover:bg-violet-500 group-hover:text-white">
             <ArrowUpRight className="size-4" />
           </span>
         </div>

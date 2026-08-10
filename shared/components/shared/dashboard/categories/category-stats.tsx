@@ -14,7 +14,7 @@ export function CategoryStats({ categories }: CategoryStatsProps) {
       label: "Всего категорий",
       value: categories.length,
       icon: Layers3,
-      iconClassName: "bg-orange-100 text-orange-700",
+      iconClassName: "bg-violet-100 text-violet-700",
     },
     {
       label: "Товаров в каталоге",

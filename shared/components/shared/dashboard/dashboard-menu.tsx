@@ -4,7 +4,6 @@ import React from "react";
 import {
   Folder,
   House,
-  LayoutDashboard,
   Leaf,
   Package,
   ShoppingCart,

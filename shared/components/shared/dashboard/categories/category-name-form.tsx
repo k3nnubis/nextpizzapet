@@ -37,7 +37,7 @@ export function CategoryNameForm({ categoryId, initialName }: CategoryNameFormPr
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center gap-3">
-        <span className="flex size-10 items-center justify-center rounded-xl bg-orange-100 text-orange-700">
+        <span className="flex size-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
           <PencilLine className="size-5" />
         </span>
         <div>
