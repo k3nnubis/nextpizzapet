@@ -1,5 +1,10 @@
 import { prisma } from "@/prisma/prisma-client";
-import { DashboardContainer, DashboardHeader, DashboardMenu } from "@/shared/components/shared/dashboard";
+import {
+  DashboardContainer,
+  DashboardHeader,
+  DashboardMenu,
+  DeleteUserAgreement,
+} from "@/shared/components/shared/dashboard";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -12,7 +17,7 @@ export const metadata: Metadata = {
   description: "Пет проектик",
 };
 
-export default async function CheckoutLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -29,16 +34,21 @@ export default async function CheckoutLayout({
       role: "ADMIN",
       status: "ACTIVE",
     },
+    select: {
+      fullName: true,
+      email: true,
+    },
   });
   if (!user) return redirect("/not-auth");
   return (
     <main className="min-h-screen bg-[#f3faff]">
       <DashboardContainer>
-        <DashboardHeader />
+        <DashboardHeader user={user} />
         <div className="flex min-w-0 flex-col md:flex-row">
           <DashboardMenu />
           {children}
         </div>
+        <DeleteUserAgreement />
       </DashboardContainer>
     </main>
   );

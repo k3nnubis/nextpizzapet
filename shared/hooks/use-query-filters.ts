@@ -16,6 +16,7 @@ export const useQueryFilters = (filters: Filters) => {
         pizzaTypes: Array.from(pizzaTypes),
         sizes: Array.from(sizes),
         ingredients: Array.from(selectedIngredients),
+        sortBy: searchParams.get("sortBy") || undefined,
       };
 
       const queryString = qs.stringify(params, {
@@ -30,5 +31,5 @@ export const useQueryFilters = (filters: Filters) => {
     }
 
     isMounted.current = true;
-  }, [prices, pizzaTypes, sizes, selectedIngredients, searchParams]);
+  }, [prices, pizzaTypes, sizes, selectedIngredients, searchParams, router]);
 };

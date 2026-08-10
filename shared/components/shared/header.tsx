@@ -10,6 +10,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./modals";
+import { Button } from "../ui";
+import { useSession } from "next-auth/react";
+import { LayoutDashboard } from "lucide-react";
 
 interface Props {
   hasSearch?: boolean;
@@ -42,6 +45,7 @@ const SearchParamsToast = () => {
 
 export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, className }) => {
   const [openAuthModal, setOpenAuthModal] = React.useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className={cn("border-b", className)}>
@@ -73,6 +77,17 @@ export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, clas
               setOpenAuthModal(false);
             }}
           />
+
+          {session?.user.role === "ADMIN" && (
+            <Button asChild variant="outline">
+              <Link href="/dashboard">
+                <LayoutDashboard size={16} />
+                <span className="hidden lg:inline">Админ-панель</span>
+                <span className="sr-only lg:hidden">Открыть административную панель</span>
+              </Link>
+            </Button>
+          )}
+
           <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
 
           {hasCart && <CartButton />}

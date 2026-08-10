@@ -68,7 +68,7 @@ export const DashboardMenu: React.FC<Props> = ({ className }) => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-full border-b bg-white md:min-h-screen md:w-[200px] md:shrink-0 md:border-r md:border-b-0">
+    <aside className="w-full border-b bg-white md:min-h-[calc(100vh-4rem)] md:w-[200px] md:shrink-0 md:border-r md:border-b-0">
       <nav
         className={cn(
           "flex gap-2 overflow-x-auto px-3 py-3 text-sm font-medium md:grid md:items-start md:overflow-visible md:px-4 md:py-5",
