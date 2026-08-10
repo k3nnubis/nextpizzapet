@@ -242,3 +242,96 @@ export async function deleteProductVariant(productId: number, variantId: number)
   await recalculateCarts(variant.cartItems.map((item) => item.cartId));
   revalidateProduct(productId, [variant.product.categoryId]);
 }
+
+export async function attachIngredientToPizza(productId: number, ingredientId: number) {
+  await requireAdmin();
+
+  const [product, ingredient] = await Promise.all([
+    prisma.product.findUnique({
+      where: { id: productId },
+      select: { type: true, categoryId: true },
+    }),
+    prisma.ingredient.findUnique({ where: { id: ingredientId }, select: { id: true } }),
+  ]);
+
+  if (!product) throw new Error("Товар не найден.");
+  if (product.type !== "PIZZA") throw new Error("Ингредиенты можно назначать только пицце.");
+  if (!ingredient) throw new Error("Ингредиент не найден.");
+
+  await prisma.product.update({
+    where: { id: productId },
+    data: { ingredients: { connect: { id: ingredientId } } },
+  });
+
+  revalidateProduct(productId, [product.categoryId]);
+}
+
+export async function detachIngredientFromPizza(productId: number, ingredientId: number) {
+  await requireAdmin();
+
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+    select: {
+      type: true,
+      categoryId: true,
+      ingredients: { where: { id: ingredientId }, select: { id: true } },
+    },
+  });
+
+  if (!product) throw new Error("Товар не найден.");
+  if (product.type !== "PIZZA") throw new Error("Ингредиенты можно изменять только у пиццы.");
+  if (!product.ingredients.length) throw new Error("Этот ингредиент уже отвязан от пиццы.");
+
+  const cartItems = await prisma.cartItem.findMany({
+    where: {
+      productItem: { productId },
+      ingredients: { some: { id: ingredientId } },
+    },
+    select: { id: true, cartId: true },
+  });
+
+  await prisma.$transaction([
+    prisma.product.update({
+      where: { id: productId },
+      data: { ingredients: { disconnect: { id: ingredientId } } },
+    }),
+    ...cartItems.map((item) =>
+      prisma.cartItem.update({
+        where: { id: item.id },
+        data: { ingredients: { disconnect: { id: ingredientId } } },
+      }),
+    ),
+  ]);
+
+  await recalculateCarts(cartItems.map((item) => item.cartId));
+  revalidateProduct(productId, [product.categoryId]);
+}
+
+export async function deleteProduct(productId: number) {
+  await requireAdmin();
+
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+    select: {
+      categoryId: true,
+      variants: {
+        select: {
+          cartItems: { select: { cartId: true } },
+        },
+      },
+    },
+  });
+
+  if (!product) throw new Error("Товар не найден.");
+
+  const cartIds = product.variants.flatMap((variant) => variant.cartItems.map((item) => item.cartId));
+
+  await prisma.$transaction([
+    prisma.cartItem.deleteMany({ where: { productItem: { productId } } }),
+    prisma.productItem.deleteMany({ where: { productId } }),
+    prisma.product.delete({ where: { id: productId } }),
+  ]);
+
+  await recalculateCarts(cartIds);
+  revalidateProduct(productId, [product.categoryId]);
+}

@@ -1,0 +1,97 @@
+"use client";
+
+import { deleteProduct } from "@/app/(dashboard)/dashboard/products/actions";
+import {
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/components/ui";
+import { LoaderCircle, Trash2, TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import toast from "react-hot-toast";
+
+interface ProductDangerZoneProps {
+  productId: number;
+  productName: string;
+  variantsCount: number;
+}
+
+export function ProductDangerZone({ productId, productName, variantsCount }: ProductDangerZoneProps) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  function handleDelete() {
+    startTransition(async () => {
+      try {
+        await deleteProduct(productId);
+        toast.success(`Товар «${productName}» удалён`);
+        setOpen(false);
+        router.replace("/dashboard/products");
+        router.refresh();
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Не удалось удалить товар");
+      }
+    });
+  }
+
+  return (
+    <section className="rounded-2xl border border-red-200 bg-red-50/60 p-5 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-700">
+            <TriangleAlert className="size-5" />
+          </span>
+          <div>
+            <h2 className="font-extrabold text-red-950">Удаление товара</h2>
+            <p className="mt-1 max-w-2xl text-sm text-red-800/80">
+              Товар будет полностью удалён из каталога вместе со всеми его вариантами и позициями в корзинах
+              покупателей.
+            </p>
+          </div>
+        </div>
+
+        <Dialog open={open} onOpenChange={(nextOpen) => !isPending && setOpen(nextOpen)}>
+          <DialogTrigger asChild>
+            <Button variant="destructive" className="shrink-0">
+              <Trash2 /> Удалить товар
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <div className="mb-2 flex size-11 items-center justify-center rounded-2xl bg-red-100 text-red-700">
+                <TriangleAlert className="size-5" />
+              </div>
+              <DialogTitle>Удалить товар «{productName}»?</DialogTitle>
+              <DialogDescription>
+                Это действие нельзя отменить. Будет удалён сам товар,{" "}
+                {variantsCount > 0
+                  ? `${variantsCount} ${variantsCount === 1 ? "вариант" : "вариантов"}`
+                  : "все связанные данные"}
+                , а также позиции этого товара из активных корзин.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="mt-2">
+              <DialogClose asChild>
+                <Button variant="outline" disabled={isPending}>
+                  Отмена
+                </Button>
+              </DialogClose>
+              <Button variant="destructive" disabled={isPending} onClick={handleDelete}>
+                {isPending ? <LoaderCircle className="animate-spin" /> : <Trash2 />}
+                {isPending ? "Удаление…" : "Удалить безвозвратно"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </section>
+  );
+}

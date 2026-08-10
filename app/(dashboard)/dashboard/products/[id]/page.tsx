@@ -2,6 +2,7 @@ import type { UpdateProductInfoInput } from "@/app/(dashboard)/dashboard/product
 import { prisma } from "@/prisma/prisma-client";
 import {
   PizzaIngredientsSummary,
+  ProductDangerZone,
   ProductInfoForm,
   ProductVariantsEditor,
   type DashboardProductIngredient,
@@ -31,7 +32,7 @@ export default async function DashboardProductPage({ params }: DashboardProductP
   const productId = Number(id);
   if (!Number.isInteger(productId) || productId <= 0) notFound();
 
-  const [product, categories] = await Promise.all([
+  const [product, categories, allIngredients] = await Promise.all([
     prisma.product.findUnique({
       where: { id: productId },
       select: {
@@ -55,6 +56,10 @@ export default async function DashboardProductPage({ params }: DashboardProductP
     prisma.category.findMany({
       orderBy: { name: "asc" },
       select: { id: true, name: true },
+    }),
+    prisma.ingredient.findMany({
+      orderBy: { name: "asc" },
+      select: { id: true, name: true, price: true, imageUrl: true },
     }),
   ]);
 
@@ -152,7 +157,19 @@ export default async function DashboardProductPage({ params }: DashboardProductP
 
         <ProductVariantsEditor productId={product.id} productType={product.type} variants={variants} />
 
-        {product.type === "PIZZA" && <PizzaIngredientsSummary ingredients={ingredients} />}
+        {product.type === "PIZZA" && (
+          <PizzaIngredientsSummary
+            productId={product.id}
+            ingredients={ingredients}
+            allIngredients={allIngredients}
+          />
+        )}
+
+        <ProductDangerZone
+          productId={product.id}
+          productName={product.name}
+          variantsCount={variants.length}
+        />
       </div>
     </div>
   );
