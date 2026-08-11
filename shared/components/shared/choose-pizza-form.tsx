@@ -3,7 +3,7 @@ import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
 import { Button } from "../ui";
 import { VariantsSelector } from "./variants-selector";
-import { Ingredient, ProductItem } from "@/src/generated/prisma/client";
+import type { Ingredient, ProductItem } from "@/src/generated/prisma/client";
 import { IngredientCard } from "./ingredient-card";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { usePizzaOptions } from "@/shared/hooks/use-pizza-options";

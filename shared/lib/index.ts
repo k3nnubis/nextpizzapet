@@ -3,3 +3,5 @@ export { calcAvailablePizzaSizes } from "./calc-available-pizza-sizes";
 export { getCartItemDetails } from "./get-cart-item-details";
 export { getCartDetails } from "./get-cart-details";
 export { calcCartItemTotalPrice as calcItemTotalPrice } from "./calc-item-total-price";
+export { sendEmail } from "./send-email";
+export { createPayment } from "./create-payment";

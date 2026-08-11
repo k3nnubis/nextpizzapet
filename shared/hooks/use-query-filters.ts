@@ -4,26 +4,32 @@ import qs from "qs";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export const useQueryFilters = (filters: Filters) => {
+  const isMounted = React.useRef(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { prices, pizzaTypes, sizes, selectedIngredients } = filters;
 
   React.useEffect(() => {
-    const params = {
-      ...prices,
-      pizzaTypes: Array.from(pizzaTypes),
-      sizes: Array.from(sizes),
-      ingredients: Array.from(selectedIngredients),
-    };
+    if (isMounted.current) {
+      const params = {
+        ...prices,
+        pizzaTypes: Array.from(pizzaTypes),
+        sizes: Array.from(sizes),
+        ingredients: Array.from(selectedIngredients),
+        sortBy: searchParams.get("sortBy") || undefined,
+      };
 
-    const queryString = qs.stringify(params, {
-      arrayFormat: "comma",
-    });
+      const queryString = qs.stringify(params, {
+        arrayFormat: "comma",
+      });
 
-    if (queryString === searchParams.toString()) {
-      return;
+      if (queryString === searchParams.toString()) {
+        return;
+      }
+
+      router.replace(`?${queryString}`, { scroll: false });
     }
 
-    router.replace(`?${queryString}`, { scroll: false });
-  }, [prices, pizzaTypes, sizes, selectedIngredients, searchParams]);
+    isMounted.current = true;
+  }, [prices, pizzaTypes, sizes, selectedIngredients, searchParams, router]);
 };

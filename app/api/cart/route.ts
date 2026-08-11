@@ -48,6 +48,22 @@ export async function POST(req: NextRequest) {
       ? Array.from(new Set(data.ingredients.filter((id) => typeof id === "number")))
       : [];
 
+    const productItem = await prisma.productItem.findUnique({
+      where: { id: data.productItemId },
+      select: {
+        product: {
+          select: { status: true, categoryId: true },
+        },
+      },
+    });
+
+    if (!productItem) {
+      return NextResponse.json({ message: "Вариант товара не найден" }, { status: 404 });
+    }
+    if (productItem.product.status !== "ACTIVE" || productItem.product.categoryId === null) {
+      return NextResponse.json({ message: "Этот товар сейчас недоступен для заказа" }, { status: 409 });
+    }
+
     let token = req.cookies.get("cartToken")?.value;
 
     if (!token) {
@@ -123,7 +139,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ message: "Корзина не найдена" }, { status: 404 });
     }
 
-    const deletedItems = await prisma.cartItem.deleteMany({
+    await prisma.cartItem.deleteMany({
       where: {
         cartId: userCart.id,
       },

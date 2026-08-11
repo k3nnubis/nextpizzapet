@@ -15,7 +15,7 @@ interface VariantsSelectorProps {
   className?: string;
 }
 
-export function VariantsSelector({ items, onClick, selectedValue, className }: VariantsSelectorProps) {
+export const VariantsSelector = ({ items, onClick, selectedValue, className }: VariantsSelectorProps) => {
   const selectedIndex = items.findIndex((item) => item.value === selectedValue);
 
   return (
@@ -53,4 +53,4 @@ export function VariantsSelector({ items, onClick, selectedValue, className }: V
       ))}
     </div>
   );
-}
+};

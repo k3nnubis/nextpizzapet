@@ -15,10 +15,14 @@ interface ProductFormProps {
 
 export function ProductForm({ product, closeFunc, className }: ProductFormProps) {
   const firstItem = product.variants[0];
-  const isPizzaForm = Boolean(firstItem.pizzaType);
+  const isPizzaForm = product.type === "PIZZA";
   const addCartItem = useCartStore((state) => state.addCartItem);
   const loading = useCartStore((state) => state.loading);
-  const onAddCartItem = async (productItemId = firstItem.id, ingredients?: number[]) => {
+  const onAddCartItem = async (productItemId = firstItem?.id, ingredients?: number[]) => {
+    if (!productItemId) {
+      toast.error("У товара пока нет доступных вариантов.");
+      return;
+    }
     const isPizza = Boolean(ingredients);
 
     try {
@@ -42,9 +46,11 @@ export function ProductForm({ product, closeFunc, className }: ProductFormProps)
         variants={product.variants}
         onSubmit={onAddCartItem}
         loading={loading}
+        className={className}
       />
     );
   }
+  if (!firstItem) return null;
   return (
     <ChooseProductForm
       imageUrl={product.imageUrl}
@@ -52,6 +58,7 @@ export function ProductForm({ product, closeFunc, className }: ProductFormProps)
       onSubmit={onAddCartItem}
       price={firstItem.price}
       loading={loading}
+      className={className}
     />
   );
 }

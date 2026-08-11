@@ -5,6 +5,6 @@ export { Skeleton } from "./skeleton";
 export { Popover } from "./popover";
 export { Slider } from "./slider";
 export { Checkbox } from "./checkbox";
-export { Dialog } from "./dialog";
+export * from "./dialog";
 export { Select } from "./select";
 export { Textarea } from "./textarea";
